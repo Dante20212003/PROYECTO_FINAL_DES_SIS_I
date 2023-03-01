@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,7 +40,7 @@ namespace CNegocio
         public string Fecha { get => fecha; set => fecha = value; }
         public bool Estado { get => estado; set => estado = value; }
 
-        public List<Usuario> getUsuarios(int limit, int offset)
+        public List<Usuario> getUsuarios(int limit = 10, int offset = 0)
         {
             List<Usuario> listaUsuarios = new List<Usuario>();
 
@@ -50,6 +52,7 @@ namespace CNegocio
                     Nombre = R["nombre"].ToString(),
                     Apellido = R["apellido"].ToString(),
                     Ci = R["ci"].ToString(),
+                    Telefono = R["telefono"].ToString(),
                     Username = R["username"].ToString(),
                     Contrasena = R["contrasena"].ToString(),
                     HorarioLaboral = R["horarioLaboral"].ToString(),
@@ -61,6 +64,14 @@ namespace CNegocio
             }
 
             return listaUsuarios;
+        }
+
+        public void updateUsuario(Usuario usuario, bool isMultEdit = false)
+        {
+
+            usuarioD.UpdateData(usuario.id, usuario.nombre, usuario.apellido, 
+                usuario.ci, usuario.telefono, usuario.username, usuario.contrasena, usuario.horarioLaboral, 
+                isMultEdit ? !usuario.Estado : usuario.estado);
         }
         public void crearUsuario()
         {
@@ -86,7 +97,7 @@ namespace CNegocio
                         estado = faker.Random.Bool(),
                     };
 
-                    
+
                     db.Insert(usuario.nombre, usuario.apellido, usuario.ci, usuario.telefono, usuario.username, usuario.contrasena, usuario.horarioLaboral, usuario.estado);
 
                 }

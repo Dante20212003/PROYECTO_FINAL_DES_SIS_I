@@ -24,7 +24,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
     {
         private int limit = 10;
         private int offset = 0;
-
+        private Usuario usuario = new Usuario();
         public ListaUsuarios()
         {
             InitializeComponent();
@@ -33,32 +33,56 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
 
         public void listarUsuarios()
         {
-            Usuario usuario = new Usuario();
-
-            DataGrid.ItemsSource = usuario.getUsuarios(limit, offset);
+            if (DataGrid != null)
+            {
+                DataGrid.ItemsSource = usuario.getUsuarios(limit, offset);
+            }
         }
 
         private void cbxLimit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             ComboBoxItem cbi = (ComboBoxItem)cbxLimit.SelectedItem;
             limit = int.Parse(cbi.Content.ToString());
 
             listarUsuarios();
         }
 
-        private void contextMenuItem_Click(object sender, RoutedEventArgs e)
+        private void desactivarCtxItem_Click(object sender, RoutedEventArgs e)
         {
-            try
+            foreach (Usuario usuarioRow in DataGrid.SelectedItems)
             {
-                Usuario row = (Usuario)DataGrid.SelectedItems[0];
-                MessageBox.Show(row.Nombre);
+                usuarioRow.Estado = false;
+                MessageBox.Show(usuarioRow.Estado.ToString());
+                usuario.updateUsuario(usuarioRow);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
-            }
-
-
         }
+        private void activarCtxItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Usuario usuarioRow in DataGrid.SelectedItems)
+            {
+                usuarioRow.Estado = true;
+                MessageBox.Show(usuarioRow.Estado.ToString());
+                usuario.updateUsuario(usuarioRow);
+            }
+        }
+
+        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+
+
+            var scrollViewer = (ScrollViewer)sender;
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox x = (CheckBox)sender;
+            Usuario usuarioRow = (Usuario)DataGrid.SelectedItem;
+            MessageBox.Show("CABIAR ESTADO " + x.IsChecked + " a " + usuarioRow.Nombre);
+            usuario.updateUsuario(usuarioRow);
+        }
+
     }
 }

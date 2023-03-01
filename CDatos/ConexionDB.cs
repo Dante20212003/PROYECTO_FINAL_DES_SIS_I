@@ -47,6 +47,27 @@ namespace CDatos
 
         }
 
+        public void Update(string query)
+        {
+            Conectar();
+            //string query = $"UPDATE Users SET nombre=@nombre, apellido=@apellido, ci=@ci, telefono=@telefono, username=@username, password=@password, horarioLaboral=@horarioLaboral, estado=@estado " +
+            //    "WHERE id={id}";
+            try
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                connection.Close();
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Error en DB (Update): \n{e.Message}");
+            }
+        }
+
         public void Insert(string name, string apellido, string ci, string telefono, string username, string password, string horarioLaboral, bool estado)
         {
             Conectar();

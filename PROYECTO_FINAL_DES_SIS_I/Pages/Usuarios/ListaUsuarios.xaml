@@ -12,19 +12,45 @@
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="0" x:Name="DataGrid" RowHeaderWidth="60"  Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="False">
+        <Grid Grid.Row="0" Margin="0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="165*"/>
+                <ColumnDefinition Width="386*"/>
+
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Content="Mostrar" BorderBrush="{x:Null}" />
+
+            <ComboBox  Grid.Column="1" x:Name="cbxLimit" SelectionChanged="cbxLimit_SelectionChanged" Width="75" Cursor="Hand" >
+                <ComboBoxItem Content="10" IsSelected="True"/>
+                <ComboBoxItem Content="30"/>
+                <ComboBoxItem Content="50"/>
+                <ComboBoxItem Content="100"/>
+            </ComboBox>
+
+            <Label Grid.Column="2" Content="Registros"  BorderBrush="{x:Null}"/>
+        </Grid>
+
+
+        <DataGrid x:Name="DataGrid"  Grid.Row="1" RowHeaderWidth="60"  Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="False">
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Desactivar" Click="contextMenuItem_Click"/>
+                    <MenuItem Header="Activar" Click="activarCtxItem_Click"/>
+                    <MenuItem Header="Desactivar" Click="desactivarCtxItem_Click"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
+            
             <DataGrid.RowHeaderTemplate>
                 <DataTemplate>
-                    <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
+                    <CheckBox  IsChecked="{Binding Estado}"/>
                 </DataTemplate>
             </DataGrid.RowHeaderTemplate>
 
@@ -33,29 +59,24 @@
                 <DataGridTextColumn Binding="{Binding Nombre}" Header="Nombre"  MinWidth="100" Width="Auto" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Apellido}" Header="Apellido" MinWidth="100" Width="Auto" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Ci}" Header="Ci" MinWidth="100" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding Telefono}" Header="Telefono" MinWidth="100" Width="Auto"/>
                 <DataGridTextColumn Binding="{Binding Username}" Header="Username" MinWidth="100" Width="Auto" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding HorarioLaboral}" Header="HorarioLaboral"  MinWidth="100" Width="Auto" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Fecha}" Header="Fecha" MinWidth="100" Width="Auto" IsReadOnly="True"/>
-                <DataGridCheckBoxColumn Binding="{Binding Estado}" Header="Estado" MinWidth="80"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=Estado, UpdateSourceTrigger=PropertyChanged}" Click="CheckBox_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 
 
-        <Grid Grid.Row="1" Margin="0 10 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
 
-            <ComboBox x:Name="cbxLimit" SelectionChanged="cbxLimit_SelectionChanged" Grid.Column="0" SelectedIndex="0" Width="75"  HorizontalAlignment="Left">
-                <ComboBoxItem Content="10"/>
-                <ComboBoxItem Content="30"/>
-                <ComboBoxItem Content="50"/>
-                <ComboBoxItem Content="100"/>
-            </ComboBox>
-
+        <Grid Grid.Row="2" Margin="0 10 0 0">
             <hc:Pagination Grid.Column="1" MaxPageCount="10"  PageIndex="1" HorizontalAlignment="Right"/>
-
         </Grid>
     </Grid>
 </Page>

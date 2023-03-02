@@ -30,7 +30,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
         {
             MessageBox.Show("Empezando a crear usuarios");
             Usuario usuario = new Usuario();
-            usuario.crearUsuario();
+            usuario.GenerarUsuarios();
 
         }
     }

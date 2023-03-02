@@ -45,8 +45,8 @@
             </Style>
             <!--RequestedTheme="Dark" AccentColor="Red"-->
             <ResourceDictionary.MergedDictionaries>
-                <hc:ThemeResources  />
-
+                <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
+                <hc:ThemeResources />
                 <hc:Theme/>
             </ResourceDictionary.MergedDictionaries>
 

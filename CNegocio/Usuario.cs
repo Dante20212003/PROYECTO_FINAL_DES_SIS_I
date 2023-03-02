@@ -22,6 +22,10 @@ namespace CNegocio
         private string username;
         private string contrasena;
         private string horarioLaboral;
+        private int rol_id;
+        private string rol;
+        private int almacen_id;
+        private string almacen;
         private string fecha;
         private bool estado;
 
@@ -39,12 +43,21 @@ namespace CNegocio
         public string HorarioLaboral { get => horarioLaboral; set => horarioLaboral = value; }
         public string Fecha { get => fecha; set => fecha = value; }
         public bool Estado { get => estado; set => estado = value; }
+        public int Rol_id { get => rol_id; set => rol_id = value; }
+        public string Rol { get => rol; set => rol = value; }
+        public int Almacen_id { get => almacen_id; set => almacen_id = value; }
+        public string Almacen { get => almacen; set => almacen = value; }
 
-        public List<Usuario> getUsuarios(int limit = 10, int offset = 0)
+        public int GetTotalUsuarios(int limit = 10, int offset = 0, string busqueda = "%%")
+        {
+            DataRow R = usuarioD.SelectData(limit, offset, busqueda, true).Rows[0];
+            return int.Parse(R["totalUsuarios"].ToString());
+        }
+        public List<Usuario> getUsuarios(int limit = 10, int offset = 0, string busqueda = "")
         {
             List<Usuario> listaUsuarios = new List<Usuario>();
 
-            foreach (DataRow R in usuarioD.SelectData(limit, offset).Rows)
+            foreach (DataRow R in usuarioD.SelectData(limit, offset, busqueda).Rows)
             {
                 Usuario usuario = new Usuario
                 {
@@ -56,6 +69,10 @@ namespace CNegocio
                     Username = R["username"].ToString(),
                     Contrasena = R["contrasena"].ToString(),
                     HorarioLaboral = R["horarioLaboral"].ToString(),
+                    Rol_id = int.Parse(R["rol_id"].ToString()),
+                    Rol = R["rol"].ToString(),
+                    Almacen_id = int.Parse(R["almacen_id"].ToString()),
+                    Almacen = R["almacen"].ToString(),
                     Fecha = R["fecha"].ToString(),
                     Estado = bool.Parse(R["estado"].ToString()),
                 };
@@ -66,21 +83,18 @@ namespace CNegocio
             return listaUsuarios;
         }
 
-        public void updateUsuario(Usuario usuario, bool isMultEdit = false)
+        public void ActualizarUsuario()
         {
-
-            usuarioD.UpdateData(usuario.id, usuario.nombre, usuario.apellido, 
-                usuario.ci, usuario.telefono, usuario.username, usuario.contrasena, usuario.horarioLaboral, 
-                isMultEdit ? !usuario.Estado : usuario.estado);
+            usuarioD.UpdateData(this.id, this.nombre, this.apellido,
+                this.ci, this.telefono, this.username, this.contrasena, this.horarioLaboral, this.Rol_id, this.Almacen_id, this.estado);
         }
-        public void crearUsuario()
+        public void GenerarUsuarios()
         {
             try
             {
                 Faker faker = new Faker("es");
-                ConexionDB db = new ConexionDB();
 
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < 200; i++)
                 {
                     string nombre = faker.Name.FirstName();
                     string apellido = faker.Name.LastName();
@@ -94,11 +108,12 @@ namespace CNegocio
                         username = $"{nombre}_{apellido}{faker.Random.Number(0, 999)}",
                         contrasena = "123456",
                         horarioLaboral = "12:00am - 20:00pm",
+                        rol_id = 1,
+                        almacen_id = 1,
                         estado = faker.Random.Bool(),
                     };
 
-
-                    db.Insert(usuario.nombre, usuario.apellido, usuario.ci, usuario.telefono, usuario.username, usuario.contrasena, usuario.horarioLaboral, usuario.estado);
+                    usuarioD.InsertData(usuario.nombre, usuario.apellido, usuario.ci, usuario.telefono, usuario.username, usuario.contrasena, usuario.horarioLaboral, usuario.rol_id, usuario.almacen_id, usuario.estado);
 
                 }
             }

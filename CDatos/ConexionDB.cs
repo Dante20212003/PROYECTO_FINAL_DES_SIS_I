@@ -7,8 +7,9 @@ namespace CDatos
 {
     public class ConexionDB
     {
-        private string connectionString = "Data Source=DESKTOP-HA2D645;Initial Catalog=Inventario;Integrated Security=True";
         private SqlConnection connection;
+        private SqlDataAdapter da;
+        private SqlCommand comm;
 
         public void Conectar()
         {
@@ -18,7 +19,7 @@ namespace CDatos
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Error en DB: \n{e.Message}");
+                MessageBox.Show($"Error en DB (Conectar): \n{e.Message}");
             }
         }
 
@@ -32,19 +33,37 @@ namespace CDatos
             {
                 connection.Open();
 
-                SqlDataAdapter da = new SqlDataAdapter(query, connection);
+                da = new SqlDataAdapter(query, connection);
                 da.Fill(ds);
 
                 connection.Close();
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Error en DB: \n{e.Message}");
+                MessageBox.Show($"Error en DB (Select): \n{e.Message}");
             }
 
 
             return ds;
 
+        }
+
+        public void InsertOrUpdate(string query)
+        {
+            try
+            {
+                Conectar();
+
+                comm = new SqlCommand(query, connection);
+
+                connection.Open();
+                comm.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Error en DB (InsertOrUpdate): \n{e.Message}");
+            }
         }
 
         public void Update(string query)
@@ -79,7 +98,7 @@ namespace CDatos
 
 
 
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                /*using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@name", name);
@@ -94,7 +113,7 @@ namespace CDatos
                     connection.Open();
                     command.ExecuteNonQuery();
                     connection.Close();
-                }
+                }*/
             }
             catch (Exception e)
             {

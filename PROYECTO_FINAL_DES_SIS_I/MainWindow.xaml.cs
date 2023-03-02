@@ -7,15 +7,16 @@ using HandyControl.Data;
 using MessageBox = HandyControl.Controls.MessageBox;
 using SideMenuItem = HandyControl.Controls.SideMenuItem;
 using CNegocio;
+using ToastNotifications.Core;
 
 namespace PROYECTO_FINAL_DES_SIS_I
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        public static Toast.Toast _ts;
+
         private bool isMaximized = false;
+
         Dictionary<string, string> paginas = new Dictionary<string, string>() {
             {"Analiticas", "Pages/Principal.xaml"},
             {"Lista de Usuarios", "Pages/Usuarios/ListaUsuarios.xaml"},
@@ -25,8 +26,28 @@ namespace PROYECTO_FINAL_DES_SIS_I
         public MainWindow()
         {
             InitializeComponent();
+            _ts = new Toast.Toast();
+            Unloaded += OnUnload;
+
             mainNavigaion.Navigate(new Uri("Pages/Principal.xaml", UriKind.RelativeOrAbsolute));
 
+        }
+
+        public static void mostrarToast(Action<string, MessageOptions> action, string msg = "")
+        {
+            MessageOptions opts = new MessageOptions
+            {
+                FreezeOnMouseEnter = true,
+                UnfreezeOnMouseLeave = true,
+                ShowCloseButton = true
+            };
+            action(msg, opts);
+
+        }
+
+        private void OnUnload(object sender, RoutedEventArgs e)
+        {
+            _ts.OnUnloaded();
         }
 
         private void btnCerrarVentana(object sender, RoutedEventArgs e)
@@ -89,9 +110,8 @@ namespace PROYECTO_FINAL_DES_SIS_I
 
         }
 
-        private void SideMenu_SelectionChanged(object sender, HandyControl.Data.FunctionEventArgs<object> e)
+        private void SideMenu_SelectionChanged(object sender, FunctionEventArgs<object> e)
         {
-
             try
             {
                 SideMenuItem sideMenuItem = e.Info as SideMenuItem;

@@ -19,33 +19,47 @@
 
 
     <!--Background="{DynamicResource RegionBrush}"-->
-    <Border Background="{DynamicResource RegionBrush}" CornerRadius="8" BorderThickness="10">
-        <Grid  >
+    <Border Background="{DynamicResource RegionBrush}"
+            CornerRadius="8"
+            BorderThickness="10">
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
 
             <!--MENU SIDEBAR-->
-            <Border CornerRadius="8 0 0 8" Background="{DynamicResource RegionBrush}">
-                <Grid x:Name="gridMenu" Width="200">
+            <Border CornerRadius="8 0 0 8"
+                    Background="{DynamicResource RegionBrush}">
+                <Grid x:Name="gridMenu"
+                      Width="200">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="60"/>
-                        <RowDefinition Height="80"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="80" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
 
                     <!--BOTON HAMBURGUESA-->
-                    <ToggleButton Margin="0" x:Name="btnMenu" HorizontalAlignment="Right" BorderThickness="0" VerticalAlignment="Center" Content="{DynamicResource MenuIcon}">
+                    <ToggleButton Margin="0"
+                                  x:Name="btnMenu"
+                                  HorizontalAlignment="Right"
+                                  BorderThickness="0"
+                                  VerticalAlignment="Center"
+                                  Content="{DynamicResource MenuIcon}">
 
                         <ToggleButton.Triggers>
                             <EventTrigger RoutedEvent="ToggleButton.Unchecked">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="gridMenu" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="50" To="200" Duration="0:0:0.3">
+                                        <DoubleAnimation Storyboard.TargetName="gridMenu"
+                                                         Storyboard.TargetProperty="Width"
+                                                         BeginTime="0:0:0"
+                                                         From="50"
+                                                         To="200"
+                                                         Duration="0:0:0.3">
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -54,7 +68,12 @@
                             <EventTrigger RoutedEvent="ToggleButton.Checked">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="gridMenu" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="200" To="50" Duration="0:0:0.3">
+                                        <DoubleAnimation Storyboard.TargetName="gridMenu"
+                                                         Storyboard.TargetProperty="Width"
+                                                         BeginTime="0:0:0"
+                                                         From="200"
+                                                         To="50"
+                                                         Duration="0:0:0.3">
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -65,57 +84,103 @@
 
 
                     <!--INFO USUARIO-->
-                    <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Orientation="Horizontal" Width="200" Margin="0 0 0 20">
-                        <Ellipse Width="40" Height="40" Margin="10 0 0 0">
+                    <StackPanel Grid.Row="1"
+                                VerticalAlignment="Bottom"
+                                Orientation="Horizontal"
+                                Width="200"
+                                Margin="0 0 0 20">
+                        <Ellipse Width="40"
+                                 Height="40"
+                                 Margin="10 0 0 0">
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="https://xsgames.co/randomusers/avatar.php?g=male"/>
+                                <ImageBrush ImageSource="https://xsgames.co/randomusers/avatar.php?g=male" />
                             </Ellipse.Fill>
                         </Ellipse>
-                        <StackPanel Orientation="Vertical" Margin="8 0 0 0">
-                            <Label x:Name="nombreUsuario" Content="Dante Arias" FontSize="14" FontWeight="SemiBold" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}"/>
-                            <Label Content="Administrador" FontSize="11" FontWeight="Regular" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0 -10 0 0" Background="{x:Null}" BorderBrush="{x:Null}"/>
+                        <StackPanel Orientation="Vertical"
+                                    Margin="8 0 0 0">
+                            <Label x:Name="nombreUsuario"
+                                   Content="Dante Arias"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   HorizontalContentAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Background="{x:Null}"
+                                   BorderBrush="{x:Null}" />
+                            <Label Content="Administrador"
+                                   FontSize="11"
+                                   FontWeight="Regular"
+                                   HorizontalContentAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Margin="0 -10 0 0"
+                                   Background="{x:Null}"
+                                   BorderBrush="{x:Null}" />
                         </StackPanel>
                     </StackPanel>
                     <!--FIN INFO USUARIO-->
 
                     <!--MENU OPCIONES-->
-                    <ScrollViewer Grid.Row="3" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-                        <hc:SideMenu x:Name="sideMenu" Height="auto" Width="200" SelectionChanged="SideMenu_SelectionChanged">
+                    <ScrollViewer Grid.Row="3"
+                                  PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                        <hc:SideMenu x:Name="sideMenu"
+                                     Height="auto"
+                                     Width="200"
+                                     SelectionChanged="SideMenu_SelectionChanged">
                             <hc:Interaction.Triggers>
                                 <hc:EventTrigger EventName="SelectionChanged">
-                                    <hc:EventToCommand Command="{Binding SwitchItemCmd}" PassEventArgsToCommand="True" />
+                                    <hc:EventToCommand Command="{Binding SwitchItemCmd}"
+                                                       PassEventArgsToCommand="True" />
                                 </hc:EventTrigger>
                             </hc:Interaction.Triggers>
 
-                            <hc:SideMenuItem Header="DASHBOARD" Padding="8"  IsSelected="True">
-                                <hc:SideMenuItem.Icon >
-                                    <Icon:PackIconMaterial Kind="Home" Width="25" Height="25"/>
+                            <hc:SideMenuItem Header="DASHBOARD"
+                                             Padding="8"
+                                             IsSelected="True">
+                                <hc:SideMenuItem.Icon>
+                                    <Icon:PackIconMaterial Kind="Home"
+                                                           Width="25"
+                                                           Height="25" />
                                 </hc:SideMenuItem.Icon>
-                                <hc:SideMenuItem  Padding="7"  IsSelected="True"  Header="Analiticas" Command="{Binding SelectCmd}" CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                <hc:SideMenuItem  Padding="7"
+                                                  IsSelected="True"
+                                                  Header="Analiticas"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                                     <hc:SideMenuItem.Icon>
                                         <Icon:PackIconMaterial Kind="GoogleAnalytics" />
                                     </hc:SideMenuItem.Icon>
                                 </hc:SideMenuItem>
                             </hc:SideMenuItem>
 
-                            <hc:SideMenuItem Header="USUARIOS" Padding="8" >
-                                <hc:SideMenuItem.Icon >
-                                    <Icon:PackIconMaterial Kind="AccountGroup"  Width="25" Height="25"/>
+                            <hc:SideMenuItem Header="USUARIOS"
+                                             Padding="8">
+                                <hc:SideMenuItem.Icon>
+                                    <Icon:PackIconMaterial Kind="AccountGroup"
+                                                           Width="25"
+                                                           Height="25" />
                                 </hc:SideMenuItem.Icon>
 
-                                <hc:SideMenuItem  Padding="7"  Header="Lista de Usuarios" Command="{Binding SelectCmd}" CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Lista de Usuarios"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                                     <hc:SideMenuItem.Icon>
                                         <Icon:PackIconMaterial Kind="FormatListBulleted" />
                                     </hc:SideMenuItem.Icon>
                                 </hc:SideMenuItem>
 
-                                <hc:SideMenuItem  Padding="7"  Header="Agregar Usuario" Command="{Binding SelectCmd}" CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Agregar Usuario"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                                     <hc:SideMenuItem.Icon>
                                         <Icon:PackIconMaterial Kind="AccountPlus" />
                                     </hc:SideMenuItem.Icon>
                                 </hc:SideMenuItem>
 
-                                <hc:SideMenuItem  Padding="7"  Header=" Roles" Command="{Binding SelectCmd}" CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header=" Roles"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                                     <hc:SideMenuItem.Icon>
                                         <Icon:PackIconMaterial Kind="AccountPlus" />
                                     </hc:SideMenuItem.Icon>
@@ -123,35 +188,53 @@
 
                             </hc:SideMenuItem>
 
-                            <hc:SideMenuItem Header="PRODUCTOS" Padding="8" >
-                                <hc:SideMenuItem.Icon >
-                                    <Icon:PackIconMaterial Kind="PackageVariant" Width="25" Height="25"/>
+                            <hc:SideMenuItem Header="PRODUCTOS"
+                                             Padding="8">
+                                <hc:SideMenuItem.Icon>
+                                    <Icon:PackIconMaterial Kind="PackageVariant"
+                                                           Width="25"
+                                                           Height="25" />
                                 </hc:SideMenuItem.Icon>
 
-                                <hc:SideMenuItem  Padding="7"  Header="Lista de Zapatos" Command="{Binding SelectCmd}" CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Lista de Zapatos"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                                     <hc:SideMenuItem.Icon>
                                         <Icon:PackIconMaterial Kind="FormatListBulleted" />
                                     </hc:SideMenuItem.Icon>
                                 </hc:SideMenuItem>
 
-                                <hc:SideMenuItem  Padding="7"  Header="Agregar Zapato" Command="{Binding SelectCmd}" CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Agregar Zapato"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                                     <hc:SideMenuItem.Icon>
                                         <Icon:PackIconMaterial Kind="AccountPlus" />
                                     </hc:SideMenuItem.Icon>
                                 </hc:SideMenuItem>
 
-                                <hc:SideMenuItem  Padding="7"  Header="Administrar Propiedades" Command="{Binding SelectCmd}" CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Administrar Propiedades"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                                     <hc:SideMenuItem.Icon>
                                         <Icon:PackIconMaterial Kind="AccountPlus" />
                                     </hc:SideMenuItem.Icon>
                                 </hc:SideMenuItem>
                             </hc:SideMenuItem>
 
-                            <hc:SideMenuItem Header="CONFIGURACION" Padding="8" >
-                                <hc:SideMenuItem.Icon >
-                                    <Icon:PackIconMaterial Kind="Cog" Width="25" Height="25"/>
+                            <hc:SideMenuItem Header="CONFIGURACION"
+                                             Padding="8">
+                                <hc:SideMenuItem.Icon>
+                                    <Icon:PackIconMaterial Kind="Cog"
+                                                           Width="25"
+                                                           Height="25" />
                                 </hc:SideMenuItem.Icon>
-                                <hc:SideMenuItem  Padding="7"  Header="Empresa" Command="{Binding SelectCmd}" CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Empresa"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                                     <hc:SideMenuItem.Icon>
                                         <Icon:PackIconMaterial Kind="Domain" />
                                     </hc:SideMenuItem.Icon>
@@ -166,39 +249,68 @@
             <!--FIN MENU SIDEBAR-->
 
             <!--PRINCIPAL-->
-            <Border Grid.Column="1" MouseDown="Window_MouseDown" >
-                <Grid  >
+            <Border Grid.Column="1"
+                    MouseDown="Window_MouseDown">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="60"/>
-                        <RowDefinition Height="279*"/>
-                        <RowDefinition Height="16*"/>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="279*" />
+                        <RowDefinition Height="16*" />
                     </Grid.RowDefinitions>
 
                     <!-- OPCIONES DE VENTANA -->
-                    <Grid  Grid.Row="0" >
+                    <Grid  Grid.Row="0">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
                         </Grid>
 
-                        <StackPanel Grid.Row="1"  HorizontalAlignment="Right" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft">
-                            <Button Cursor="Hand" Padding="0" Margin="0 0 10 0"  Height="20" Foreground="{x:Null}" Background="Transparent" BorderBrush="{x:Null}" Click="btnCerrarVentana">
+                        <StackPanel Grid.Row="1"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,5,10,0"
+                                    Height="30"
+                                    Orientation="Horizontal"
+                                    FlowDirection="RightToLeft">
+                            <Button Cursor="Hand"
+                                    Padding="0"
+                                    Margin="0 0 10 0"
+                                    Height="20"
+                                    Foreground="{x:Null}"
+                                    Background="Transparent"
+                                    BorderBrush="{x:Null}"
+                                    Click="btnCerrarVentana">
                                 <Button.Content>
-                                    <Icon:PackIconMaterial Kind="CloseBox" Foreground="Red"/>
+                                    <Icon:PackIconMaterial Kind="CloseBox"
+                                                           Foreground="Red" />
                                 </Button.Content>
                             </Button>
 
-                            <Button Cursor="Hand" Padding="0" Margin="0 0 10 0" Height="20" Foreground="{x:Null}" Background="Transparent" BorderBrush="{x:Null}" Click="btnMinimizarVentana">
+                            <Button Cursor="Hand"
+                                    Padding="0"
+                                    Margin="0 0 10 0"
+                                    Height="20"
+                                    Foreground="{x:Null}"
+                                    Background="Transparent"
+                                    BorderBrush="{x:Null}"
+                                    Click="btnMinimizarVentana">
                                 <Button.Content>
-                                    <Icon:PackIconMaterial Kind="WindowMinimize" Foreground="#FFE8E13D"/>
+                                    <Icon:PackIconMaterial Kind="WindowMinimize"
+                                                           Foreground="#FFE8E13D" />
                                 </Button.Content>
                             </Button>
 
-                            <Button Cursor="Hand" Padding="0"  Height="20" Foreground="{x:Null}" Background="Transparent" BorderBrush="{x:Null}" Click="btnMaximizarVentana">
+                            <Button Cursor="Hand"
+                                    Padding="0"
+                                    Height="20"
+                                    Foreground="{x:Null}"
+                                    Background="Transparent"
+                                    BorderBrush="{x:Null}"
+                                    Click="btnMaximizarVentana">
                                 <Button.Content>
-                                    <Icon:PackIconMaterial Kind="WindowMaximize" Foreground="#FF60C136"/>
+                                    <Icon:PackIconMaterial Kind="WindowMaximize"
+                                                           Foreground="#FF60C136" />
                                 </Button.Content>
                             </Button>
                         </StackPanel>
@@ -206,28 +318,22 @@
                     <!-- FIN OPCIONES DE VENTANA -->
 
                     <!--VISTA PRINCIPAL-->
-                    <Border  Grid.Row="1" Margin="10,10,10,10" Grid.RowSpan="2">
+                    <Border  Grid.Row="1"
+                             Margin="10,10,10,10"
+                             Grid.RowSpan="2">
 
-                        <Grid >
-                            <Grid.RowDefinitions >
-                                <RowDefinition Height="*"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-                                <StackPanel>
-                                    <Frame x:Name="mainNavigaion" NavigationUIVisibility="Hidden" Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom">
-                                        <!-- Page Content -->
-                                    </Frame>
-                                </StackPanel>
-                            </ScrollViewer>
+                            <Frame x:Name="mainNavigaion"
+                                   NavigationUIVisibility="Hidden"
+                                   Grid.Row="0"
+                                   Grid.Column="0">
+                                <!-- Page Content -->
+                            </Frame>
                         </Grid>
-
-
-
                     </Border>
                     <!--FIN VISTA PRINCIPAL-->
                 </Grid

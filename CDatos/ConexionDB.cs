@@ -15,7 +15,7 @@ namespace CDatos
         {
             try
             {
-                connection = new SqlConnection("Data Source=DESKTOP-HA2D645;Initial Catalog=Inventario;Integrated Security=True");
+                connection = new SqlConnection("Data Source=DESKTOP-HA2D645;Initial Catalog=Tarea4;Integrated Security=True");
             }
             catch (Exception e)
             {
@@ -66,60 +66,31 @@ namespace CDatos
             }
         }
 
-        public void Update(string query)
+        public SqlDataReader SelectOne(string query)
         {
+
             Conectar();
-            //string query = $"UPDATE Users SET nombre=@nombre, apellido=@apellido, ci=@ci, telefono=@telefono, username=@username, password=@password, horarioLaboral=@horarioLaboral, estado=@estado " +
-            //    "WHERE id={id}";
+
+            SqlDataReader result = null;
+
+
             try
             {
                 connection.Open();
+                comm = new SqlCommand(query, connection);
 
-                SqlCommand command = new SqlCommand(query, connection);
-                command.ExecuteNonQuery();
+                result = comm.ExecuteReader();
+                result.Read();
 
+                MessageBox.Show(result["stock"].ToString());
                 connection.Close();
-
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Error en DB (Update): \n{e.Message}");
-            }
-        }
-
-        public void Insert(string name, string apellido, string ci, string telefono, string username, string password, string horarioLaboral, bool estado)
-        {
-            Conectar();
-            try
-            {
-                string query = "INSERT INTO Usuario (nombre,apellido,ci, telefono, username,contrasena,horarioLaboral, estado) VALUES" +
-                " (@name, @apellido, @ci, @telefono, @username, @password, @horarioLaboral, @estado)";
-
-
-
-
-                /*using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@name", name);
-                    command.Parameters.AddWithValue("@apellido", apellido);
-                    command.Parameters.AddWithValue("@ci", ci);
-                    command.Parameters.AddWithValue("@telefono", telefono);
-                    command.Parameters.AddWithValue("@username", username);
-                    command.Parameters.AddWithValue("@password", password);
-                    command.Parameters.AddWithValue("@horarioLaboral", horarioLaboral);
-                    command.Parameters.AddWithValue("@estado", estado);
-
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }*/
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"Error en DB: \n{e.Message}");
+                MessageBox.Show($"Error en DB (SelectOne): \n{e.Message}");
             }
 
+            return result;
 
         }
     }

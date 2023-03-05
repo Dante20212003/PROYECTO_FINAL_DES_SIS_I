@@ -54,7 +54,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClienteD.cs" />
     <Compile Include="ConexionDB.cs" />
+    <Compile Include="PedidoD.cs" />
+    <Compile Include="ProductoD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

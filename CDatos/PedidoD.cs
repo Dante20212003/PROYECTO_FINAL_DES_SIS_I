@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace CDatos
@@ -43,8 +39,6 @@ namespace CDatos
 
             string sql = $"UPDATE Pedido SET cliente_id={cliente_id}, producto_id={producto_id}, cantidad={newCantidad}, monto={newMonto}, fecha='{fecha}' " +
                 $"WHERE id={id};";
-
-            MessageBox.Show(sql);
             conexion.InsertOrUpdate(sql);
         }
     }

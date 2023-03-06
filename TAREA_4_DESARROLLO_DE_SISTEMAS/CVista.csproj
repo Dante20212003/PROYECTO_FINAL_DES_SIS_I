@@ -78,9 +78,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Components\CardDashboard.xaml.cs">
-      <DependentUpon>CardDashboard.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Clientes\ListaClientes.xaml.cs">
       <DependentUpon>ListaClientes.xaml</DependentUpon>
     </Compile>
@@ -92,9 +89,6 @@
     </Compile>
     <Compile Include="Pages\GenerarData.xaml.cs">
       <DependentUpon>GenerarData.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Page2.xaml.cs">
-      <DependentUpon>Page2.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Pedidos\CrearPedido.xaml.cs">
       <DependentUpon>CrearPedido.xaml</DependentUpon>
@@ -112,11 +106,6 @@
       <DependentUpon>ListaProductos.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\Toast.cs" />
-    <Compile Include="Utils\WrapPanelCustom.cs" />
-    <Page Include="Components\CardDashboard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -145,10 +134,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Page2.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\Pedidos\CrearPedido.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -161,10 +146,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Principal.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\Productos\CrearProducto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -173,26 +154,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Usuarios\CrearUsuario.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Usuarios\ListaUsuarios.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Zapato.cs" />
-    <Compile Include="Pages\Principal.xaml.cs">
-      <DependentUpon>Principal.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Usuarios\CrearUsuario.xaml.cs">
-      <DependentUpon>CrearUsuario.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Usuarios\ListaUsuarios.xaml.cs">
-      <DependentUpon>ListaUsuarios.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

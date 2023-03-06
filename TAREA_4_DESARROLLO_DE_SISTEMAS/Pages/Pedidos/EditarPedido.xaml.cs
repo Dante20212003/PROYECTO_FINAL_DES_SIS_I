@@ -1,25 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CNegocio;
 using HandyControl.Controls;
-using Microsoft.SqlServer.Server;
-using TAREA_4_DESARROLLO_DE_SISTEMAS;
 using ComboBox = System.Windows.Controls.ComboBox;
-using MessageBox = HandyControl.Controls.MessageBox;
 using TextBox = HandyControl.Controls.TextBox;
 
 namespace TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Pedidos
@@ -133,7 +120,7 @@ namespace TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Pedidos
         private void fechaDateTimeChanged(object sender, HandyControl.Data.FunctionEventArgs<DateTime?> e)
         {
             string fechaSelect = ((DateTimePicker)sender).Text;
-          
+
             ValidateFecha(fechaSelect);
         }
 
@@ -285,5 +272,5 @@ namespace TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Pedidos
             ValidateMonto(txtMonto.Text);
             ValidateFecha(txtFecha.Text);
         }
-                  }
+    }
 }

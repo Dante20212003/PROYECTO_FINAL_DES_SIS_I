@@ -4,17 +4,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using HandyControl.Data;
+using ToastNotifications.Core;
 using MessageBox = HandyControl.Controls.MessageBox;
 using SideMenuItem = HandyControl.Controls.SideMenuItem;
-using CNegocio;
-using ToastNotifications.Core;
 
 namespace TAREA_4_DESARROLLO_DE_SISTEMAS
 {
     public partial class MainWindow : Window
     {
         public static Toast.Toast _ts;
-  
+
 
         private bool isMaximized = false;
 
@@ -45,7 +44,7 @@ namespace TAREA_4_DESARROLLO_DE_SISTEMAS
                 UnfreezeOnMouseLeave = true,
                 ShowCloseButton = true,
                 FontSize = 14,
-                
+
             };
             action(msg, opts);
 

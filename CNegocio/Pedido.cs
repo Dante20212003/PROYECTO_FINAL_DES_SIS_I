@@ -2,12 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using Bogus;
-using Bogus.DataSets;
 using CDatos;
 
 namespace CNegocio
@@ -65,28 +60,6 @@ namespace CNegocio
         public void ActualizarPedido()
         {
             pedidoD.UpdateData(Id, Cliente_id, Producto_id, Cantidad, Monto, Fecha);
-        }
-
-        public void GenerarProductos(int limit)
-        {
-            Faker faker = new Faker("es_MX");
-
-            var unidades = new[] { "Unidad", "Caja", "Bolsa", "Paquete", "Kilogramos", "Litros" };
-
-            var productos = new Faker<Pedido>()
-
-             .RuleFor(n => n.Cliente_id, f => faker.Random.Number())
-             .RuleFor(n => n.Producto_id, f => faker.Random.Number())
-             .RuleFor(n => n.Cantidad, f => Math.Round(faker.Random.Decimal(0, 500), 2))
-             .RuleFor(n => n.Monto, f => Math.Round(faker.Random.Decimal(0, 100), 2));
-
-            for (int i = 0; i < limit; i++)
-            {
-                var pedido = productos.Generate();
-
-
-                pedidoD.InsertData(pedido.Cliente_id, pedido.Producto_id, pedido.Cantidad, pedido.Monto);
-            }
         }
     }
 }

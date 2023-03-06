@@ -1,31 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Bogus.Bson;
-using CDatos;
 using CNegocio;
-using HandyControl.Collections;
 using HandyControl.Controls;
-using HandyControl.Tools.Extension;
 using ComboBox = System.Windows.Controls.ComboBox;
 using MessageBox = HandyControl.Controls.MessageBox;
-using TextBox = HandyControl.Controls.TextBox;
+using Window = System.Windows.Window;
 
 namespace TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Pedidos
 {
@@ -114,6 +97,12 @@ namespace TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Pedidos
         {
             int i = listaPedido.Count + 1;
 
+            if (DataGridProductos.SelectedItems.Count == 0)
+            {
+                MainWindow.mostrarToast(MainWindow._ts.ShowInformation, $"Seleccione un producto");
+                return;
+            }
+
             Producto productoRow = (Producto)DataGridProductos.SelectedItem;
 
             if (productoRow.Cantidad == 0)
@@ -180,6 +169,13 @@ namespace TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Pedidos
 
         private void quitarPedido_Click(object sender, RoutedEventArgs e)
         {
+
+            if (DataGridPedido.SelectedItems.Count == 0)
+            {
+                MainWindow.mostrarToast(MainWindow._ts.ShowInformation, $"Seleccione un registro");
+                return;
+            }
+
             Pedido pedidoRow = (Pedido)DataGridPedido.SelectedItem;
 
             Producto existeItem = listaProductos.Where(pr => pr.Id == pedidoRow.Producto_id).FirstOrDefault();
@@ -203,7 +199,7 @@ namespace TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Pedidos
                     btnVaciarPedido.Visibility = Visibility.Hidden;
                 }
             }
-                 }
+        }
 
         private void actualizarCtxItem_Click(object sender, RoutedEventArgs e)
         {
@@ -293,6 +289,15 @@ namespace TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Pedidos
             {
                 ListarProductos();
             }
+        }
+
+        private void RegresarAtras_Click(object sender, RoutedEventArgs e)
+        {
+            var mw = Application.Current.Windows
+    .Cast<Window>()
+    .FirstOrDefault(window => window is MainWindow) as MainWindow;
+
+            mw.mainNavigaion.Content = new ListaPedidos();
         }
     }
 

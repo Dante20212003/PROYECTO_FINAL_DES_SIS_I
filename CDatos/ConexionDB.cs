@@ -1,6 +1,6 @@
-﻿using System.Data.SqlClient;
+﻿using System;
 using System.Data;
-using System;
+using System.Data.SqlClient;
 using System.Windows;
 
 namespace CDatos
@@ -11,11 +11,14 @@ namespace CDatos
         private SqlDataAdapter da;
         private SqlCommand comm;
 
+        private string equipo = "DESKTOP-HA2D645";
+        private string database = "Tarea4";
+
         public void Conectar()
         {
             try
             {
-                connection = new SqlConnection("Data Source=DESKTOP-HA2D645;Initial Catalog=Tarea4;Integrated Security=True");
+                connection = new SqlConnection($"Data Source={equipo};Initial Catalog={database};Integrated Security=True");
             }
             catch (Exception e)
             {
@@ -64,34 +67,6 @@ namespace CDatos
             {
                 MessageBox.Show($"Error en DB (InsertOrUpdate): \n{e.Message}");
             }
-        }
-
-        public SqlDataReader SelectOne(string query)
-        {
-
-            Conectar();
-
-            SqlDataReader result = null;
-
-
-            try
-            {
-                connection.Open();
-                comm = new SqlCommand(query, connection);
-
-                result = comm.ExecuteReader();
-                result.Read();
-
-                MessageBox.Show(result["stock"].ToString());
-                connection.Close();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"Error en DB (SelectOne): \n{e.Message}");
-            }
-
-            return result;
-
         }
     }
 }

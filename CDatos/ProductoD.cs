@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace CDatos
@@ -55,7 +50,6 @@ namespace CDatos
             conexion.InsertOrUpdate(query);
         }
 
-       
         public void UpdateStock(int id, decimal stock)
         {
             string newStock = stock.ToString(new CultureInfo("en-US"));

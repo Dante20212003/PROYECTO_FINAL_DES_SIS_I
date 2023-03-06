@@ -7,9 +7,7 @@
       mc:Ignorable="d"
       xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
       xmlns:hc="https://handyorg.github.io/handycontrol"
-      xmlns:components="clr-namespace:TAREA_4_DESARROLLO_DE_SISTEMAS.Components"
-      xmlns:utils="clr-namespace:TAREA_4_DESARROLLO_DE_SISTEMAS.Utils"
-      d:DesignHeight="450"
+      
       d:DesignWidth="800"
       Title="ListaUsuarios"
       Loaded="Page_Loaded"
@@ -25,28 +23,7 @@
                    FontSize="40"
                    FontWeight="Bold"
                    TextAlignment="Center" />
-
-        <!--<utils:WrapPanelCustom Grid.Row="0"
-                               ItemWidth="300"
-                               HorizontalAlignment="Center">
-            <components:CardDashboard Margin="10"
-                                      Titulo="Clientes Registrados"
-                                      Total="23"
-                                      Background="#FF96EC8F" />
-
-            <components:CardDashboard Margin="10"
-                                      Titulo="Productos Registrados"
-                                      Total="23"
-                                      Background="#FFDFE662" />
-
-            <components:CardDashboard Margin="10"
-                                      Titulo="Total Ventas"
-                                      Total="23"
-                                      Background="#FF8FE1EC" />
-
-
-        </utils:WrapPanelCustom>-->
-
+       
         <DataGrid x:Name="DataGrid"
                   Margin="0 20 0 0"
                   Grid.Row="1"

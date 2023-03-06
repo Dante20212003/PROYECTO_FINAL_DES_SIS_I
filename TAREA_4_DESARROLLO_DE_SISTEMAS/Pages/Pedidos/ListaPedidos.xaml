@@ -28,7 +28,7 @@
                 Style="{StaticResource ButtonPrimary}"
                 Margin="0 15"
                 Cursor="Hand"
-                Click="BtnNuevoCliente_Click">
+                Click="BtnNuevo_Click">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Nuevo Pedido"

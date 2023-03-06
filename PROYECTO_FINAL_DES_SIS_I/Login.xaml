@@ -1,0 +1,73 @@
+﻿<hc:Window  x:Class="PROYECTO_FINAL_DES_SIS_I.Login"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:local="clr-namespace:PROYECTO_FINAL_DES_SIS_I"
+            xmlns:hc="https://handyorg.github.io/handycontrol"
+            mc:Ignorable="d"
+            hc:WindowAttach.IsDragElement="True"
+            hc:WindowAttach.SystemBackdropType="Mica"
+            WindowStartupLocation="CenterScreen"
+            ShowTitle="False"
+            Title="Login"
+            Height="360"
+            Width="400"
+            hc:WindowStyle="None"
+            AllowsTransparency="True"
+            Background="{DynamicResource RegionBrush}"
+            ResizeMode="NoResize"
+            >
+
+
+    <hc:Card Margin="20 20 20 30"
+             Height="Auto"
+             BorderThickness="2">
+        <Grid Margin="20 0"
+              VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Text="INICIO DE SESION"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="30"
+                       FontWeight="SemiBold"
+                       Margin="0 10 0 14" />
+
+            <hc:TextBox Grid.Row="1"
+                        x:Name="txtUsuario"
+                        hc:InfoElement.Placeholder="Tu usuario"
+                        hc:InfoElement.Title="Usuario:"
+                        Margin="0,16,0,0"
+                        Text="admin"/>
+
+            <hc:PasswordBox Grid.Row="2"
+                            x:Name="txtContrasena"
+                            hc:InfoElement.Placeholder="Tu contraseña"
+                            hc:InfoElement.Title="Contraseña"
+                            Margin="0,12,0,0"
+                            ShowEyeButton="True"
+                            Password="admin"/>
+
+            <Button Grid.Row="3"
+                    HorizontalAlignment="Stretch"
+                    Width="auto"
+                    Click="Login_Click"
+                    Content="LOGIN"
+                    Cursor="Hand"
+                    Margin="0 20"
+                    Style="{StaticResource ButtonPrimary}" />
+        </Grid>
+    </hc:Card>
+
+
+</hc:Window>

@@ -9,35 +9,54 @@ namespace CDatos
     {
         ConexionDB conexion = new ConexionDB();
 
-
-        public DataTable SelectTotalData()
+        public DataTable SelectData(int limit = 10, int offset = 0, string query = "", bool isCount = false)
         {
-            string query = "SELECT COUNT(*) as totalUsuarios FROM Usuario;";
-            return conexion.Select(query).Tables[0];
-        }
-        public DataTable SelectData(int limit = 10, int offset = 0, string busqueda = "", bool isCount = false)
-        {
-            string header = isCount ? "COUNT(*) as totalUsuarios" : "*, r.nombre rol, a.nombre almacen";
+            string header = "";
+
+            if (isCount)
+            {
+                header += "SELECT COUNT(*) as totalUsuarios FROM Usuario u, Rol r, Almacen a ";
+            }
+            else
+            {
+                header += $"SELECT TOP {limit} * FROM (SELECT ROW_NUMBER() OVER (ORDER BY u.id DESC) AS numRow, " +
+                        "u.id, u.nombre, u.apellido, u.ci, u.telefono, u.username, u.contrasena, u.horarioLaboral, u.rol_id, r.nombre rol, u.almacen_id, a.nombre almacen, u.estado, u.fecha " +
+                        "FROM Usuario u, Rol r, Almacen a ";
+            }
 
 
-            string query = $"SELECT {header} FROM Usuario u, Rol r, Almacen a " +
+            string sql = header +
                 "WHERE (u.rol_id = r.id AND u.almacen_id = a.id) " +
-                $"AND (u.nombre LIKE '{busqueda}' COLLATE SQL_Latin1_General_CP1_CI_AI " +
-                $"OR u.apellido LIKE '{busqueda}' COLLATE SQL_Latin1_General_CP1_CI_AI " +
-                $"OR u.ci LIKE '{busqueda}' " +
-                $"OR u.telefono LIKE '{busqueda}' " +
-                $"OR u.username LIKE '{busqueda}' COLLATE SQL_Latin1_General_CP1_CI_AI " +
-                $"OR u.horarioLaboral LIKE '{busqueda}' " +
-                $"OR r.nombre LIKE '{busqueda}' COLLATE SQL_Latin1_General_CP1_CI_AI " +
-                $"OR a.nombre LIKE '{busqueda}' COLLATE SQL_Latin1_General_CP1_CI_AI) ";
+                $"AND (u.nombre LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
+                $"OR u.apellido LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
+                $"OR u.ci LIKE '%{query}%'" +
+                $"OR u.telefono LIKE '%{query}%' " +
+                $"OR u.username LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
+                $"OR u.horarioLaboral LIKE '%{query}%' " +
+                $"OR r.nombre LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
+                $"OR a.nombre LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI) ";
+
             //PAGINACION
             if (!isCount)
             {
-                query += "ORDER BY u.id " +
-                $"OFFSET {offset} ROWS FETCH FIRST {limit} ROWS ONLY";
+                sql += $") as users WHERE users.numRow > {offset}";
             }
-            
-            return conexion.Select(query).Tables[0];
+
+            return conexion.Select(sql).Tables[0];
+        }
+
+        public DataRow SelectOneData(string campo, string value)
+        {
+            string sql = $"SELECT u.id, u.nombre, u.apellido, u.ci, u.telefono, u.username, u.contrasena, u.horarioLaboral, u.rol_id, r.nombre rol, u.almacen_id, a.nombre almacen, u.estado " +
+                $"FROM Usuario u, Rol r, Almacen a " +
+                $"WHERE (u.rol_id = r.id AND u.almacen_id = a.id) " +
+                $"AND ({campo} = '{value}')";
+
+            var result = conexion.Select(sql).Tables[0];
+
+            if (result.Rows.Count > 0) return result.Rows[0];
+
+            return null;
         }
 
         public void InsertData(string nombre, string apellido, string ci, string telefono, string username, string contrasena, string horarioLaboral, int rol_id, int almacen_id, bool estado)
@@ -47,13 +66,16 @@ namespace CDatos
             conexion.InsertOrUpdate(sql);
         }
 
-        public void UpdateData(int id, string nombre, string apellido, string ci, string telefono, string username, string contrasena, string horarioLaboral, int rol_id, int almacen_id, bool estado)
+        public void UpdateData(int id, string nombre, string apellido, string ci, string telefono, string username, string contrasena, string horarioLaboral, int rol_id, int almacen_id, bool estado, bool isPassword = false)
         {
-            string query = $"UPDATE Usuario SET nombre='{nombre}', apellido='{apellido}', ci='{ci}', telefono='{telefono}', username='{username}', " +
-                $"contrasena='{contrasena}', horarioLaboral='{horarioLaboral}', rol_id={rol_id}, almacen_id={almacen_id}, estado={Convert.ToInt32(estado)} " +
-                $"WHERE id={id};";
+            string sql = $"UPDATE Usuario SET nombre='{nombre}', apellido='{apellido}', ci='{ci}', telefono='{telefono}', username='{username}', " +
+                $"horarioLaboral='{horarioLaboral}', rol_id={rol_id}, almacen_id={almacen_id}, estado={Convert.ToInt32(estado)} ";
 
-            conexion.InsertOrUpdate(query);
+            if (isPassword) sql += $", contrasena='{contrasena}'";
+
+            sql += $"WHERE id={id};";
+
+            conexion.InsertOrUpdate(sql);
         }
     }
 }

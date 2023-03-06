@@ -1,4 +1,4 @@
-﻿<Page x:Class="PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios.ListaUsuarios"
+﻿<Page x:Class="PROYECTO_FINAL_DES_SIS_I.Pages.Productos.ListaProductos"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="ADMINISTRACION DE USUARIOS"
+        <TextBlock Text="ADMINISTRACION DE ZAPATOS"
                    FontSize="20"
                    FontWeight="DemiBold"
                    HorizontalAlignment="Left"
@@ -35,7 +35,7 @@
                 Click="BtnNuevo_Click">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Nuevo Usuario"
+                    <Label Content="Nuevo Zapato"
                            Background="{x:Null}"
                            Foreground="White"
                            BorderBrush="{x:Null}" />
@@ -215,20 +215,34 @@
                 <DataGridTextColumn Binding="{Binding Id}"
                                     Header="#"
                                     MinWidth="50" />
+                <DataGridTextColumn Binding="{Binding Codigo}"
+                                    Header="Codigo"
+                                    MinWidth="100"
+                                    Width="Auto" />
                 <DataGridTextColumn Binding="{Binding Nombre}"
                                     Header="Nombre"
                                     MinWidth="100"
                                     Width="Auto" />
-                <DataGridTextColumn Binding="{Binding Apellido}"
-                                    Header="Apellido"
+                <DataGridTextColumn Binding="{Binding Modelo}"
+                                    Header="Modelo"
                                     MinWidth="100"
                                     Width="Auto" />
-                <DataGridTextColumn Binding="{Binding Username}"
-                                    Header="Username"
+                <DataGridTextColumn Binding="{Binding Stock}"
+                                    Header="Stock"
                                     MinWidth="100"
                                     Width="Auto" />
-                <DataGridTextColumn Binding="{Binding Rol}"
-                                    Header="Rol"
+                <DataGridTextColumn Binding="{Binding Precio}"
+                                    Header="Precio"
+                                    MinWidth="100"
+                                    Width="Auto" />
+
+                <DataGridTextColumn Binding="{Binding Img}"
+                                    Header="Img"
+                                    MinWidth="100"
+                                    Width="Auto" />
+
+                <DataGridTextColumn Binding="{Binding Usuario}"
+                                    Header="Fecha"
                                     MinWidth="100"
                                     Width="Auto" />
 
@@ -262,11 +276,12 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontSize="15"
                                            FontWeight="Bold"
-                                           Text="Ci: "
+                                           Text="Talla: "
                                            VerticalAlignment="Center"
                                            Style="{StaticResource TextBlockLarge}" />
+                                
                                 <TextBlock FontSize="15"
-                                           Text="{Binding Ci}"
+                                           Text="{Binding Talla}"
                                            VerticalAlignment="Center"
                                            Style="{StaticResource TextBlockLarge}" />
                             </StackPanel>
@@ -274,11 +289,12 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontSize="15"
                                            FontWeight="Bold"
-                                           Text="Telefono: "
+                                           Text="Color: "
                                            VerticalAlignment="Center"
                                            Style="{StaticResource TextBlockLarge}" />
+                                
                                 <TextBlock FontSize="15"
-                                           Text="{Binding Telefono}"
+                                           Text="{Binding Color}"
                                            VerticalAlignment="Center"
                                            Style="{StaticResource TextBlockLarge}" />
                             </StackPanel>
@@ -286,26 +302,15 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontSize="15"
                                            FontWeight="Bold"
-                                           Text="Ci: "
+                                           Text="Agregado por: "
                                            VerticalAlignment="Center"
                                            Style="{StaticResource TextBlockLarge}" />
                                 <TextBlock FontSize="15"
-                                           Text="{Binding Almacen}"
+                                           Text="{Binding Usuario}"
                                            VerticalAlignment="Center"
                                            Style="{StaticResource TextBlockLarge}" />
                             </StackPanel>
 
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock FontSize="15"
-                                           FontWeight="Bold"
-                                           Text="Horario Laboral: "
-                                           VerticalAlignment="Center"
-                                           Style="{StaticResource TextBlockLarge}" />
-                                <TextBlock FontSize="15"
-                                           Text="{Binding HorarioLaboral}"
-                                           VerticalAlignment="Center"
-                                           Style="{StaticResource TextBlockLarge}" />
-                            </StackPanel>
                         </StackPanel>
                     </Border>
                 </DataTemplate>

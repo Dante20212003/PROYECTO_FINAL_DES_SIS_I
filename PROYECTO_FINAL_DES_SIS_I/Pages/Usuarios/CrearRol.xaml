@@ -1,0 +1,137 @@
+﻿<UserControl x:Class="PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios.CrearRol"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d"
+             Loaded="Page_Loaded">
+
+    <Grid Background="{DynamicResource RegionBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+
+        </Grid.RowDefinitions>
+
+        <hc:Card Margin="0 20 0 0"
+                 Height="Auto"
+                 BorderThickness="1"
+                 Width="300">
+
+            <!--HEADER-->
+            <hc:Card.Header>
+
+                <TextBlock x:Name="title"
+                           Padding="15"
+                           Text="Agregar Rol"
+                           FontSize="18"
+                           FontWeight="Bold" />
+            </hc:Card.Header>
+            <!-- FIN HEADER-->
+            
+            <!--FORMULARIO-->
+            <Border CornerRadius="4,4,0,0"
+                    Padding="10 0"
+                    Margin="0 0 0 30">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+                        <hc:TextBox Grid.Row="0"
+                                    x:Name="txtNombre"
+                                    hc:InfoElement.Placeholder="Ej: Juanito"
+                                    hc:InfoElement.Title="Nombre"
+                                    hc:InfoElement.Necessary="True"
+                                    Margin="0,16,0,0"
+                                    TextChanged="TextBox_TextChanged" />
+
+                        <Label x:Name="lblNombre"
+                               Content="Campo invalido"
+                               Grid.Row="1"
+                               HorizontalAlignment="Left"
+                               FontSize="12"
+                               Background="{x:Null}"
+                               BorderBrush="{x:Null}"
+                               Padding="0"
+                               Margin="5 0"
+                               Height="20"
+                               Foreground="#FFC12020"
+                               Visibility="Collapsed" />
+                    </Grid>
+
+                    <Grid Grid.Row="1"
+                          Margin="0 16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+                        <ComboBox x:Name="cbxEstado"
+                                  hc:InfoElement.Title="Estado"
+                                  Style="{StaticResource ComboBoxExtend}"
+                                  hc:InfoElement.Necessary="True"
+                                  SelectedValue="Activo" />
+
+                        <Label x:Name="lblEstado"
+                               Content="Campo invalido"
+                               Grid.Row="2"
+                               HorizontalAlignment="Left"
+                               FontSize="12"
+                               Background="{x:Null}"
+                               BorderBrush="{x:Null}"
+                               Padding="0"
+                               Margin="5 0"
+                               Height="20"
+                               Foreground="#FFC12020"
+                               Visibility="Collapsed" />
+                    </Grid>
+
+
+                </Grid>
+            </Border>
+            <!--FIN FORMULARIO-->
+
+        </hc:Card>
+
+        <Border Padding="0 20"
+                Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        Command="hc:ControlCommands.Close"
+                        Content="Cancelar"
+                        Width="100"
+                        Cursor="Hand"
+                        Style="{StaticResource ButtonDanger}" />
+
+                <Button Grid.Column="1"
+                        Width="100"
+                        Click="btnAgregar_Click"
+                        Content="Agregar"
+                        Cursor="Hand"
+                        Style="{StaticResource ButtonPrimary}" />
+
+            </Grid>
+        </Border>
+    </Grid>
+
+</UserControl>

@@ -7,21 +7,19 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:local="clr-namespace:PROYECTO_FINAL_DES_SIS_I"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280"
-        WindowStartupLocation="CenterScreen" WindowStyle="None"
-        Background="Transparent"
-        WindowState="Normal"
+        Title="Sistema Inventario"
+        Height="720"
+        Width="1280"
+        WindowStartupLocation="CenterScreen"
         MinWidth="600"
         MinHeight="400"
-        AllowsTransparency="True"
-        ResizeMode="CanResizeWithGrip"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        WindowState="Maximized"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Loaded="Window_Loaded">
 
 
     <!--Background="{DynamicResource RegionBrush}"-->
-    <Border Background="{DynamicResource RegionBrush}"
-            CornerRadius="8"
-            BorderThickness="10">
+    <Border Background="{DynamicResource RegionBrush}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -36,10 +34,12 @@
                       Width="200">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60" />
-                        <RowDefinition Height="80" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
+
+
 
 
                     <!--BOTON HAMBURGUESA-->
@@ -98,7 +98,7 @@
                         </Ellipse>
                         <StackPanel Orientation="Vertical"
                                     Margin="8 0 0 0">
-                            <Label x:Name="nombreUsuario"
+                            <Label x:Name="lblUsuario"
                                    Content="Dante Arias"
                                    FontSize="14"
                                    FontWeight="SemiBold"
@@ -106,7 +106,8 @@
                                    HorizontalAlignment="Left"
                                    Background="{x:Null}"
                                    BorderBrush="{x:Null}" />
-                            <Label Content="Administrador"
+                            <Label x:Name="lblRol"
+                                   Content="Administrador"
                                    FontSize="11"
                                    FontWeight="Regular"
                                    HorizontalContentAlignment="Center"
@@ -124,6 +125,7 @@
                         <hc:SideMenu x:Name="sideMenu"
                                      Height="auto"
                                      Width="200"
+                                     
                                      SelectionChanged="SideMenu_SelectionChanged">
                             <hc:Interaction.Triggers>
                                 <hc:EventTrigger EventName="SelectionChanged">
@@ -152,7 +154,8 @@
                             </hc:SideMenuItem>
 
                             <hc:SideMenuItem Header="USUARIOS"
-                                             Padding="8">
+                                             Padding="8"
+                                             x:Name="menuAdmin">
                                 <hc:SideMenuItem.Icon>
                                     <Icon:PackIconMaterial Kind="AccountGroup"
                                                            Width="25"
@@ -169,16 +172,7 @@
                                 </hc:SideMenuItem>
 
                                 <hc:SideMenuItem  Padding="7"
-                                                  Header="Agregar Usuario"
-                                                  Command="{Binding SelectCmd}"
-                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
-                                    <hc:SideMenuItem.Icon>
-                                        <Icon:PackIconMaterial Kind="AccountPlus" />
-                                    </hc:SideMenuItem.Icon>
-                                </hc:SideMenuItem>
-
-                                <hc:SideMenuItem  Padding="7"
-                                                  Header=" Roles"
+                                                  Header="Administracion de Roles"
                                                   Command="{Binding SelectCmd}"
                                                   CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
                                     <hc:SideMenuItem.Icon>
@@ -204,24 +198,6 @@
                                         <Icon:PackIconMaterial Kind="FormatListBulleted" />
                                     </hc:SideMenuItem.Icon>
                                 </hc:SideMenuItem>
-
-                                <hc:SideMenuItem  Padding="7"
-                                                  Header="Agregar Zapato"
-                                                  Command="{Binding SelectCmd}"
-                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
-                                    <hc:SideMenuItem.Icon>
-                                        <Icon:PackIconMaterial Kind="AccountPlus" />
-                                    </hc:SideMenuItem.Icon>
-                                </hc:SideMenuItem>
-
-                                <hc:SideMenuItem  Padding="7"
-                                                  Header="Administrar Propiedades"
-                                                  Command="{Binding SelectCmd}"
-                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
-                                    <hc:SideMenuItem.Icon>
-                                        <Icon:PackIconMaterial Kind="AccountPlus" />
-                                    </hc:SideMenuItem.Icon>
-                                </hc:SideMenuItem>
                             </hc:SideMenuItem>
 
                             <hc:SideMenuItem Header="CONFIGURACION"
@@ -231,12 +207,18 @@
                                                            Width="25"
                                                            Height="25" />
                                 </hc:SideMenuItem.Icon>
+
                                 <hc:SideMenuItem  Padding="7"
-                                                  Header="Empresa"
-                                                  Command="{Binding SelectCmd}"
-                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                                  Header="Almacen">
                                     <hc:SideMenuItem.Icon>
-                                        <Icon:PackIconMaterial Kind="Domain" />
+                                        <Icon:PackIconMaterial Kind="StoreCog" />
+                                    </hc:SideMenuItem.Icon>
+                                </hc:SideMenuItem>
+
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Generacion de Data">
+                                    <hc:SideMenuItem.Icon>
+                                        <Icon:PackIconMaterial Kind="AllInclusive" />
                                     </hc:SideMenuItem.Icon>
                                 </hc:SideMenuItem>
                             </hc:SideMenuItem>
@@ -253,69 +235,37 @@
                     MouseDown="Window_MouseDown">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="60" />
-                        <RowDefinition Height="279*" />
-                        <RowDefinition Height="16*" />
+
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+
                     </Grid.RowDefinitions>
 
-                    <!-- OPCIONES DE VENTANA -->
-                    <Grid  Grid.Row="0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                        </Grid>
-
+                    <!--OPCIONES TOP-->
+                    <Border Grid.Row="0"
+                            Margin="0 15">
                         <StackPanel Grid.Row="1"
                                     HorizontalAlignment="Right"
                                     Margin="0,5,10,0"
                                     Height="30"
                                     Orientation="Horizontal"
                                     FlowDirection="RightToLeft">
-                            <Button Cursor="Hand"
-                                    Padding="0"
-                                    Margin="0 0 10 0"
-                                    Height="20"
-                                    Foreground="{x:Null}"
-                                    Background="Transparent"
-                                    BorderBrush="{x:Null}"
-                                    Click="btnCerrarVentana">
+
+                            <Button Margin="0 0 10 0"
+                                    Click="BtnCerrarSesion">
                                 <Button.Content>
-                                    <Icon:PackIconMaterial Kind="CloseBox"
-                                                           Foreground="Red" />
+                                    <Icon:PackIconMaterial Kind="Logout" />
                                 </Button.Content>
                             </Button>
 
-                            <Button Cursor="Hand"
-                                    Padding="0"
-                                    Margin="0 0 10 0"
-                                    Height="20"
-                                    Foreground="{x:Null}"
-                                    Background="Transparent"
-                                    BorderBrush="{x:Null}"
-                                    Click="btnMinimizarVentana">
+                            <Button Click="BtnTheme">
                                 <Button.Content>
-                                    <Icon:PackIconMaterial Kind="WindowMinimize"
-                                                           Foreground="#FFE8E13D" />
-                                </Button.Content>
-                            </Button>
-
-                            <Button Cursor="Hand"
-                                    Padding="0"
-                                    Height="20"
-                                    Foreground="{x:Null}"
-                                    Background="Transparent"
-                                    BorderBrush="{x:Null}"
-                                    Click="btnMaximizarVentana">
-                                <Button.Content>
-                                    <Icon:PackIconMaterial Kind="WindowMaximize"
-                                                           Foreground="#FF60C136" />
+                                    <Icon:PackIconMaterial Kind="ThemeLightDark" />
                                 </Button.Content>
                             </Button>
                         </StackPanel>
-                    </Grid>
-                    <!-- FIN OPCIONES DE VENTANA -->
+                    </Border>
+
 
                     <!--VISTA PRINCIPAL-->
                     <Border  Grid.Row="1"
@@ -327,12 +277,16 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
+
                             <Frame x:Name="mainNavigaion"
                                    NavigationUIVisibility="Hidden"
                                    Grid.Row="0"
-                                   Grid.Column="0">
+                                   Grid.Column="0"
+                                   Style="{x:Null}">
                                 <!-- Page Content -->
                             </Frame>
+
+
                         </Grid>
                     </Border>
                     <!--FIN VISTA PRINCIPAL-->

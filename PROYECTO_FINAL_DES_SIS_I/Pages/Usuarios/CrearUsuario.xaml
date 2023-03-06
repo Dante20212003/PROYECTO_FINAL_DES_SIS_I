@@ -1,16 +1,438 @@
-﻿<Page x:Class="PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios.CrearUsuario"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios"
-      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-      xmlns:hc="https://handyorg.github.io/handycontrol"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="CrearUsuario">
+﻿<UserControl x:Class="PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios.CrearUsuario"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d"
+             Loaded="Page_Loaded">
 
-    <Grid>
-        <Button Content="Crear" Click="crearUsuarioDB"></Button>
+    <Grid Background="{DynamicResource RegionBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+
+        </Grid.RowDefinitions>
+
+        <TabControl Margin="10"
+                    Grid.Row="0"
+                    Style="{StaticResource TabControlInLine}"
+                    Width="400">
+            <TabItem Header="DATOS PERSONALES">
+                <!-- NOMBRE APELLI CI TELEFONO -->
+
+                <hc:Card Margin="0 20 0 0"
+                         Height="Auto"
+                         BorderThickness="1">
+                    <!--FORMULARIO-->
+                    <Border CornerRadius="4,4,0,0"
+                            Padding="10 0"
+                            Margin="0 0 0 30">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+
+                            <Grid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <hc:TextBox Grid.Row="0"
+                                            x:Name="txtNombre"
+                                            hc:InfoElement.Placeholder="Ej: Juanito"
+                                            hc:InfoElement.Title="Nombre"
+                                            hc:InfoElement.Necessary="True"
+                                            Margin="0,16,0,0"
+                                            TextChanged="TextBox_TextChanged" />
+
+                                <Label x:Name="lblNombre"
+                                       Content="Campo invalido"
+                                       Grid.Row="1"
+                                       HorizontalAlignment="Left"
+                                       FontSize="12"
+                                       Background="{x:Null}"
+                                       BorderBrush="{x:Null}"
+                                       Padding="0"
+                                       Margin="5 0"
+                                       Height="20"
+                                       Foreground="#FFC12020"
+                                       Visibility="Collapsed" />
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <hc:TextBox Grid.Row="0"
+                                            x:Name="txtApellido"
+                                            hc:InfoElement.Placeholder="Ej: Perez"
+                                            hc:InfoElement.Title="Apellido"
+                                            hc:InfoElement.Necessary="True"
+                                            Margin="0,16,0,0"
+                                            TextChanged="TextBox_TextChanged" />
+
+                                <Label x:Name="lblApellido"
+                                       Content="Campo invalido"
+                                       Grid.Row="1"
+                                       HorizontalAlignment="Left"
+                                       FontSize="12"
+                                       Background="{x:Null}"
+                                       BorderBrush="{x:Null}"
+                                       Padding="0"
+                                       Margin="5 0"
+                                       Height="20"
+                                       Foreground="#FFC12020"
+                                       Visibility="Collapsed" />
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <hc:TextBox Grid.Row="0"
+                                            x:Name="txtCi"
+                                            hc:InfoElement.Placeholder="Ej: 127656611"
+                                            hc:InfoElement.Title="Ci"
+                                            Margin="0,16,0,0"
+                                            TextChanged="TextBox_TextChanged"
+                                            PreviewTextInput="OnlyInt_PreviewTextInput" />
+
+                                <Label x:Name="lblCi"
+                                       Content="Campo invalido"
+                                       Grid.Row="1"
+                                       HorizontalAlignment="Left"
+                                       FontSize="12"
+                                       Background="{x:Null}"
+                                       BorderBrush="{x:Null}"
+                                       Padding="0"
+                                       Margin="5 0"
+                                       Height="20"
+                                       Foreground="#FFC12020"
+                                       Visibility="Collapsed" />
+                            </Grid>
+
+                            <Grid Grid.Row="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <hc:TextBox Grid.Row="0"
+                                            x:Name="txtTelefono"
+                                            hc:InfoElement.Placeholder="Ej: 64459235"
+                                            hc:InfoElement.Title="Telefono"
+                                            hc:InfoElement.Necessary="True"
+                                            Margin="0,16,0,0"
+                                            TextChanged="TextBox_TextChanged"
+                                            PreviewTextInput="OnlyInt_PreviewTextInput" />
+
+                                <Label x:Name="lblTelefono"
+                                       Content="Campo invalido"
+                                       Grid.Row="1"
+                                       HorizontalAlignment="Left"
+                                       FontSize="12"
+                                       Background="{x:Null}"
+                                       BorderBrush="{x:Null}"
+                                       Padding="0"
+                                       Margin="5 0"
+                                       Height="20"
+                                       Foreground="#FFC12020"
+                                       Visibility="Collapsed" />
+                            </Grid>
+
+
+                        </Grid>
+                    </Border>
+                    <!--FIN FORMULARIO-->
+
+
+                </hc:Card>
+            </TabItem>
+
+            <TabItem Header="CREDENCIALES">
+                <!--USUARIO CONTRASENA HORARIO-->
+
+                <hc:Card Margin="0 20 0 0"
+                         Height="Auto"
+                         BorderThickness="1">
+                    <!--FORMULARIO-->
+                    <Border CornerRadius="4,4,0,0"
+                            Padding="10 0"
+                            Margin="0 0 0 30">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+
+                            <Grid Grid.Row="0">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <hc:TextBox Grid.Row="0"
+                                            x:Name="txtUsername"
+                                            hc:InfoElement.Placeholder="Ej: JuanitoPerz6445"
+                                            hc:InfoElement.Title="Username"
+                                            hc:InfoElement.Necessary="True"
+                                            Margin="0,16,0,0"
+                                            TextChanged="TextBox_TextChanged" />
+
+                                <Label x:Name="lblUsername"
+                                       Content="Campo invalido"
+                                       Grid.Row="1"
+                                       HorizontalAlignment="Left"
+                                       FontSize="12"
+                                       Background="{x:Null}"
+                                       BorderBrush="{x:Null}"
+                                       Padding="0"
+                                       Margin="5 0"
+                                       Height="20"
+                                       Visibility="Collapsed"
+                                       Foreground="#FFC12020" />
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <hc:TextBox Grid.Column="0"
+                                                x:Name="txtContrasena"
+                                                hc:InfoElement.Placeholder="Ej: D@G!^$334"
+                                                hc:InfoElement.Title="Contrasena"
+                                                hc:InfoElement.Necessary="True"
+                                                Margin="0,16,0, 0"
+                                                TextChanged="TextBox_TextChanged" />
+
+                                    <Button Grid.Column="1"
+                                            VerticalAlignment="Bottom" Margin="4 0 0 0"
+                                            Style="{StaticResource ButtonWarning}"
+                                            ToolTip="Generar Contraseña"
+                                            Click="GenerarContrasena_Click">
+                                        <Button.Content>
+                                            <Icon:PackIconMaterial Kind="KeyVariant"
+                                                                  />
+                                        </Button.Content>
+                                    </Button>
+                                </Grid>
+
+                                <Label x:Name="lblContrasena"
+                                       Content="Campo invalido"
+                                       Grid.Row="1"
+                                       HorizontalAlignment="Left"
+                                       FontSize="12"
+                                       Background="{x:Null}"
+                                       BorderBrush="{x:Null}"
+                                       Padding="0"
+                                       Margin="5 0"
+                                       Height="20"
+                                       Foreground="#FFC12020"
+                                       Visibility="Collapsed" />
+                            </Grid>
+
+                            <Grid Grid.Row="2"
+                                  Margin="0 16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <ComboBox x:Name="cbxEstado"
+                                          hc:InfoElement.Title="Estado"
+                                          Style="{StaticResource ComboBoxExtend}"
+                                          hc:InfoElement.Necessary="True"
+                                          SelectedValue="Activo" />
+
+                                <Label x:Name="lblEstado"
+                                       Content="Campo invalido"
+                                       Grid.Row="2"
+                                       HorizontalAlignment="Left"
+                                       FontSize="12"
+                                       Background="{x:Null}"
+                                       BorderBrush="{x:Null}"
+                                       Padding="0"
+                                       Margin="5 0"
+                                       Height="20"
+                                       Foreground="#FFC12020"
+                                       Visibility="Collapsed" />
+                            </Grid>
+                        </Grid>
+
+                    </Border>
+                    <!--FIN FORMULARIO-->
+
+
+                </hc:Card>
+            </TabItem>
+
+            <TabItem Header="LABORAL">
+                <hc:Card Margin="0 20 0 0"
+                         Height="Auto"
+                         BorderThickness="1">
+                    <!--FORMULARIO-->
+                    <Border CornerRadius="4,4,0,0"
+                            Padding="10 0"
+                            Margin="0 0 0 30">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+
+                            <Grid Grid.Row="0"
+                                  Margin="0,0,0,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <ComboBox x:Name="cbxRol"
+                                          hc:InfoElement.Title="Rol"
+                                          Style="{StaticResource ComboBoxExtend}"
+                                          hc:InfoElement.Necessary="True"
+                                          SelectionChanged="cbxRol_SelectionChanged"
+                                          SelectedValue="2"
+                                          Margin="0,16,0,0" />
+
+                                <Label x:Name="lblRol"
+                                       Content="Campo invalido"
+                                       Grid.Row="1"
+                                       HorizontalAlignment="Left"
+                                       FontSize="12"
+                                       Background="{x:Null}"
+                                       BorderBrush="{x:Null}"
+                                       Padding="0"
+                                       Margin="5 0"
+                                       Height="20"
+                                       Foreground="#FFC12020"
+                                       Visibility="Collapsed" />
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <ComboBox x:Name="cbxAlmacen"
+                                          hc:InfoElement.Title="Almacen"
+                                          Style="{StaticResource ComboBoxExtend}"
+                                          hc:InfoElement.Necessary="True"
+                                          SelectionChanged="cbxAlmacen_SelectionChanged"
+                                          IsEditable="True"
+                                          IsTextSearchEnabled="True" />
+
+
+                                <Label x:Name="lblAlmacen"
+                                       Content="Campo invalido"
+                                       Grid.Row="2"
+                                       HorizontalAlignment="Left"
+                                       FontSize="12"
+                                       Background="{x:Null}"
+                                       BorderBrush="{x:Null}"
+                                       Padding="0"
+                                       Margin="5 0"
+                                       Height="20"
+                                       Foreground="#FFC12020"
+                                       Visibility="Collapsed" />
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <ComboBox x:Name="cbxHorario"
+                                          Margin="0,16,0,0"
+                                          hc:InfoElement.Title="Horario"
+                                          Style="{StaticResource ComboBoxExtend}"
+                                          hc:InfoElement.Necessary="True"
+                                          SelectionChanged="cbxHorario_SelectionChanged"
+                                          SelectedValue="Activo" />
+
+                                <Label x:Name="lblHorario"
+                                       Content="Campo invalido"
+                                       Grid.Row="2"
+                                       HorizontalAlignment="Left"
+                                       FontSize="12"
+                                       Background="{x:Null}"
+                                       BorderBrush="{x:Null}"
+                                       Padding="0"
+                                       Margin="5 0"
+                                       Height="20"
+                                       Foreground="#FFC12020"
+                                       Visibility="Collapsed" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <!--FIN FORMULARIO-->
+
+
+                </hc:Card>
+            </TabItem>
+
+        </TabControl>
+
+        <Border Padding="0 20"
+                Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        Command="hc:ControlCommands.Close"
+                        Content="Cancelar"
+                        Width="100"
+                        Cursor="Hand"
+                        Style="{StaticResource ButtonDanger}" />
+
+                <Button Grid.Column="1"
+                        Width="100"
+                        Click="btnAgregar_Click"
+                        Content="Agregar"
+                        Cursor="Hand"
+                        Style="{StaticResource ButtonPrimary}" />
+
+            </Grid>
+        </Border>
     </Grid>
-</Page>
+
+</UserControl>

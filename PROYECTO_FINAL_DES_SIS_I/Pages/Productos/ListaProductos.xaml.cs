@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,48 +8,46 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CNegocio;
 using HandyControl.Controls;
-using HandyControl.Tools.Extension;
-using ComboBox = System.Windows.Controls.ComboBox;
-using Checbox = System.Windows.Controls.CheckBox;
+using PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios;
+using CNegocio;
 using MessageBox = HandyControl.Controls.MessageBox;
+using Window = System.Windows.Window;
 
-
-namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
+namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
 {
     /// <summary>
-    /// Interaction logic for ListaUsuarios.xaml
+    /// Interaction logic for ListaProductos.xaml
     /// </summary>
-    public partial class ListaUsuarios : Page
+    public partial class ListaProductos : Page
     {
+
         private int limit = 10;
         private int offset = 0;
 
-        private Usuario usuario = new Usuario();
+        private Zapato zapato = new Zapato();
 
-        public ListaUsuarios()
+        public ListaProductos()
         {
             InitializeComponent();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ListarUsuarios();
+            ListarZapatos();
         }
 
         // LISTA LOS USUARIOS EN EL DATAGRID
-        public void ListarUsuarios(string query = "")
+        public void ListarZapatos(string query = "")
         {
             if (DataGrid != null)
             {
-                var data = usuario.GetUsuarios(limit, offset, query);
-                int totalUsuarios = usuario.CountUsuarios(limit, offset, query);
+                var data = zapato.GetZapatos(limit, offset, query);
+                int totalUsuarios = zapato.CountZapatos(limit, offset, query);
 
                 DataGrid.ItemsSource = data;
 
@@ -59,21 +56,13 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
             }
         }
 
-        // ACTIVACION O DESACTIVACION DE USUARIO
+        // ACTIVACION O DESACTIVACION DE ZAPATOS
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
 
-            Usuario usuarioRow = (Usuario)DataGrid.SelectedItem;
-            if (usuarioRow.Username == "admin")
-            {
-                usuarioRow.Estado = true;
-                MainWindow.mostrarToast(MainWindow._ts.ShowError, "No puedes desactivar al usuario admin");
-                DataGrid.Items.Refresh();
-                return;
-            }
-
-            usuarioRow.ActualizarUsuario();
-            MainWindow.mostrarToast(MainWindow._ts.ShowSuccess, "Usuario actualizado con exito.");
+            Zapato zapatoRow = (Zapato)DataGrid.SelectedItem;
+            zapatoRow.ActualizarZapato();
+            MainWindow.mostrarToast(MainWindow._ts.ShowSuccess, "Zapato actualizado con exito.");
 
         }
 
@@ -97,24 +86,16 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
             MenuItem menuItem = (MenuItem)sender;
             string opcion = menuItem.Header.ToString();
 
-            foreach (Usuario usuarioRow in DataGrid.SelectedItems)
+            foreach (Zapato zapatoRow in DataGrid.SelectedItems)
             {
-                if (usuarioRow.Username == "admin")
-                {
-                    MainWindow.mostrarToast(MainWindow._ts.ShowError, "No puedes desactivar al usuario admin");
-                }
-                else
-                {
-                    usuarioRow.Estado = opcion == "Activar" ? true : false;
-                    usuarioRow.ActualizarUsuario();
-                }
-
+                zapatoRow.Estado = opcion == "Activar" ? true : false;
+                zapatoRow.ActualizarZapato();
             }
 
             DataGrid.Items.Refresh();
             DataGrid.SelectedItem = null;
 
-            string msg = totalSeleccionados <= 1 ? "Usuario actualizado con exito" : $"{totalSeleccionados} Usuarios actualizados con exito.";
+            string msg = totalSeleccionados <= 1 ? "Zapato actualizado con exito" : $"{totalSeleccionados} Zapatos actualizados con exito.";
             MainWindow.mostrarToast(MainWindow._ts.ShowSuccess, msg);
         }
 
@@ -123,7 +104,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
         {
             ComboBoxItem cbi = (ComboBoxItem)cbxLimit.SelectedItem;
             limit = int.Parse(cbi.Content.ToString());
-            ListarUsuarios(txtSearch != null ? txtSearch.Text : "");
+            ListarZapatos(txtSearch != null ? txtSearch.Text : "");
         }
 
         // CONTROL DE LA PAGINACION
@@ -131,7 +112,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
         {
             int pagina = int.Parse(e.Info.ToString());
             offset = (pagina * limit) - limit;
-            ListarUsuarios(txtSearch.Text);
+            ListarZapatos(txtSearch.Text);
         }
 
         // EXPANCION DE FILA PARA DATAGRID
@@ -151,7 +132,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
             string query = ((SearchBar)sender).Text;
             if (query.Length > 0)
             {
-                ListarUsuarios(query);
+                ListarZapatos(query);
             }
         }
 
@@ -161,40 +142,51 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
 
             if (txt.Length == 0)
             {
-                ListarUsuarios();
+                ListarZapatos();
             }
 
         }
 
         private void BtnNuevo_Click(object sender, RoutedEventArgs e)
         {
-            Modal();
+            var mw = Application.Current.Windows
+     .Cast<Window>()
+     .FirstOrDefault(window => window is MainWindow) as MainWindow;
+
+            mw.mainNavigaion.Content = new CrearProducto();
         }
 
         private void Editar_Click(object sender, RoutedEventArgs e)
         {
-            Usuario usuario = (Usuario)DataGrid.SelectedItems[0];
-            Modal(true, usuario);
+            Zapato zapato = (Zapato)DataGrid.SelectedItems[0];
+            Modal(true, zapato);
         }
 
-        private void Modal(bool isEdit = false, Usuario usuario = null)
+        private void Modal(bool isEdit = false, Zapato zapato = null)
         {
-            PopupWindow popup = new PopupWindow()
+
+            var mw = Application.Current.Windows
+    .Cast<Window>()
+    .FirstOrDefault(window => window is MainWindow) as MainWindow;
+
+            mw.mainNavigaion.Content = new CrearProducto(zapato);
+
+            /*PopupWindow popup = new PopupWindow()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 AllowsTransparency = true,
                 WindowStyle = WindowStyle.None,
                 Effect = null,
-            };
+            };*/
+            /*
 
+                        if (isEdit) popup.PopupElement = new CrearUsuario(zapato);
+                        else popup.PopupElement = new CrearUsuario();
 
-            if (isEdit) popup.PopupElement = new CrearUsuario(usuario);
-            else popup.PopupElement = new CrearUsuario();
-
-            if (popup.ShowDialog() != true)
-            {
-                ListarUsuarios();
-            }
+                        if (popup.ShowDialog() != true)
+                        {
+                            ListarZapatos();
+                        }*/
         }
     }
 }

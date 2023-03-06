@@ -8,29 +8,77 @@ using MessageBox = HandyControl.Controls.MessageBox;
 using SideMenuItem = HandyControl.Controls.SideMenuItem;
 using CNegocio;
 using ToastNotifications.Core;
+using HandyControl.Controls;
+using PROYECTO_FINAL_DES_SIS_I.Components;
+using Window = System.Windows.Window;
+using ScrollViewer = System.Windows.Controls.ScrollViewer;
+using HandyControl.Themes;
 
 namespace PROYECTO_FINAL_DES_SIS_I
 {
     public partial class MainWindow : Window
     {
+        public static Usuario usuario;
         public static Toast.Toast _ts;
 
-        private bool isMaximized = false;
-
         Dictionary<string, string> paginas = new Dictionary<string, string>() {
-            {"Analiticas", "Pages/Principal.xaml"},
-            {"Lista de Usuarios", "Pages/Usuarios/ListaUsuarios.xaml"},
-            {"Agregar Usuario", "Pages/Usuarios/CrearUsuario.xaml"}
+            {"Analiticas", "Pages/Dashboard.xaml"},//
+            {"Lista de Usuarios", "Pages/Usuarios/ListaUsuarios.xaml"},//
+            {"Administracion de Roles", "Pages/Usuarios/ListaRoles.xaml"},//
+            {"Lista de Zapatos", "Pages/Productos/ListaProductos.xaml"},//
+            {"Agregar Zapato", "Pages/Productos/CrearProducto.xaml"},//
+            {"Almacen", "Pages/Almacens/Formulario.xaml"}, //PEDINDIENTE
+            {"Generacion de Data", "Pages/GenerarData.xaml"},
         };
 
-        public MainWindow()
+        public MainWindow(Usuario _usuario)
         {
             InitializeComponent();
+
+
+            try
+            {
+                usuario = _usuario;
+            }
+            catch
+            {
+                MessageBox.Show("NO TIENES UNA SESION", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
+            }
+        }
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            /*  PopupWindow popup = new PopupWindow()
+              {
+                  WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                  AllowsTransparency = true,
+                  WindowStyle = WindowStyle.None,
+                  Effect = null,
+                  ShowTitle = false,
+                  ShowInTaskbar = false
+              };
+
+
+              popup.PopupElement = new FormAlmacen();
+
+              if (popup.ShowDialog() != true)
+              {
+                  //DAR BIENVENIDa
+              }*/
+
             _ts = new Toast.Toast();
             Unloaded += OnUnload;
 
-            mainNavigaion.Navigate(new Uri("Pages/Principal.xaml", UriKind.RelativeOrAbsolute));
+            _ts.ShowSuccess("BIENVENIDO USUARIO");
 
+            mainNavigaion.Navigate(new Uri("Pages/Dashboard.xaml", UriKind.RelativeOrAbsolute));
+
+            if (usuario.Rol != "Admin") menuAdmin.Visibility = Visibility.Collapsed;
+            lblUsuario.Content = usuario.Nombre.Split(' ')[0] + usuario.Apellido.Split(' ')[0];
+            lblRol.Content = usuario.Rol;
         }
 
         public static void mostrarToast(Action<string, MessageOptions> action, string msg = "")
@@ -85,20 +133,20 @@ namespace PROYECTO_FINAL_DES_SIS_I
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount != 2) return;
+            /*  if (e.ClickCount != 2) return;
 
-            if (!isMaximized)
-            {
-                WindowState = WindowState.Maximized;
-                isMaximized = true;
-            }
-            else
-            {
-                WindowState = WindowState.Normal;
-                Width = 1080;
-                Height = 720;
-                isMaximized = false;
-            }
+              if (!isMaximized)
+              {
+                  WindowState = WindowState.Maximized;
+                  isMaximized = true;
+              }
+              else
+              {
+                  WindowState = WindowState.Normal;
+                  Width = 1080;
+                  Height = 720;
+                  isMaximized = false;
+              }*/
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -122,6 +170,20 @@ namespace PROYECTO_FINAL_DES_SIS_I
             {
                 MessageBox.Show(ex.Message.ToString());
             }
+        }
+
+        private void BtnCerrarSesion(object sender, RoutedEventArgs e)
+        {
+            Login login = new Login();
+            this.Close();
+            login.Show();
+        }
+
+        private void BtnTheme(object sender, RoutedEventArgs e)
+        {
+            if (ThemeManager.Current.ActualApplicationTheme.ToString() == "Light") ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+            else ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
+
         }
     }
 }

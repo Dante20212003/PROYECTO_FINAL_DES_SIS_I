@@ -1,0 +1,167 @@
+﻿<UserControl x:Class="PROYECTO_FINAL_DES_SIS_I.Components.FormAlmacen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:PROYECTO_FINAL_DES_SIS_I.Components"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             Unloaded="UserControl_Unloaded">
+    <hc:Card Width="400"
+             Height="Auto"
+             BorderThickness="2">
+        <!--HEADER-->
+        <hc:Card.Header>
+
+            <TextBlock x:Name="title"
+                       Padding="15"
+                       Text="Configuracion de Almacen"
+                       FontSize="18"
+                       FontWeight="Bold" />
+        </hc:Card.Header>
+        <!-- FIN HEADER-->
+
+        <!--FORMULARIO-->
+        <Border CornerRadius="4,4,0,0"
+                Padding="10 0"
+                Margin="0 0 0 30">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+
+
+                </Grid.RowDefinitions>
+
+
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <hc:TextBox Grid.Row="0"
+                                x:Name="txtNombre"
+                                hc:InfoElement.Placeholder="Ej: Almacen Zapato Terra"
+                                hc:InfoElement.Title="Nombre"
+                                hc:InfoElement.Necessary="True"
+                                Margin="0,16,0,0"
+                                TextChanged="TextBox_TextChanged">
+
+                    </hc:TextBox>
+
+                    <Label x:Name="lblNombre"
+                           Content="Campo invalido"
+                           Grid.Row="1"
+                           HorizontalAlignment="Left"
+                           FontSize="12"
+                           Background="{x:Null}"
+                           BorderBrush="{x:Null}"
+                           Padding="0"
+                           Margin="5 0"
+                           Height="20"
+                           Foreground="#FFC12020"
+                           Visibility="Collapsed" />
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <hc:TextBox Grid.Row="0"
+                                x:Name="txtTelefono"
+                                hc:InfoElement.Placeholder="Ej: 46657994"
+                                hc:InfoElement.Title="Telefono"
+                                Margin="0,16,0,0"
+                                TextChanged="TextBox_TextChanged"
+                                PreviewTextInput="OnlyNumber_PreviewTextInput">
+
+                    </hc:TextBox>
+
+                    <Label x:Name="lblTelefono"
+                           Content="Campo invalido"
+                           Grid.Row="1"
+                           HorizontalAlignment="Left"
+                           FontSize="12"
+                           Background="{x:Null}"
+                           BorderBrush="{x:Null}"
+                           Padding="0"
+                           Margin="5 0"
+                           Height="20"
+                           Foreground="#FFC12020"
+                           Visibility="Collapsed" />
+                </Grid>
+
+
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <hc:TextBox Grid.Row="0"
+                                x:Name="txtDireccion"
+                                hc:InfoElement.Placeholder="Ej: Calle del Barrio "
+                                hc:InfoElement.Title="Direccion"
+                                hc:InfoElement.Necessary="True"
+                                Margin="0,16,0,0"
+                                TextChanged="TextBox_TextChanged"
+                                TextWrapping="Wrap">
+
+                    </hc:TextBox>
+
+                    <Label x:Name="lblDireccion"
+                           Content="Campo invalido"
+                           Grid.Row="1"
+                           HorizontalAlignment="Left"
+                           FontSize="12"
+                           Background="{x:Null}"
+                           BorderBrush="{x:Null}"
+                           Padding="0"
+                           Margin="5 0"
+                           Height="20"
+                           Foreground="#FFC12020"
+                           Visibility="Collapsed" />
+                </Grid>
+            </Grid>
+        </Border>
+        <!--FIN FORMULARIO-->
+
+        <!--FOOTER-->
+        <hc:Card.Footer>
+            <Border Padding="0 20">
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            Command="hc:ControlCommands.Close"
+                            Content="Cancelar"
+                            Width="100"
+                            Cursor="Hand"
+                            x:Name="btnCancelar"
+                      
+                            Margin="20 0"
+                            Style="{StaticResource ButtonDanger}" />
+
+                    <Button x:Name="btnAgregar"
+                            Grid.Column="1"
+                            Width="100"
+                            Click="btnAgregar_Click"
+                            Content="Agregar"
+                            Cursor="Hand"
+                            Margin="20 0"
+                            Style="{StaticResource ButtonPrimary}" />
+
+                </Grid>
+            </Border>
+        </hc:Card.Footer>
+    </hc:Card>
+</UserControl>

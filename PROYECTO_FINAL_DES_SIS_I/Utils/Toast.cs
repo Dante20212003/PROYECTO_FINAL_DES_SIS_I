@@ -16,10 +16,11 @@ namespace Toast
 
         public Toast()
         {
+            
             _notifier = new Notifier(cfg =>
             {
-                cfg.PositionProvider = new WindowPositionProvider(
-                    parentWindow: Application.Current.MainWindow,
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                  
                     corner: Corner.BottomRight,
                     offsetX: 25,
                     offsetY: 40);

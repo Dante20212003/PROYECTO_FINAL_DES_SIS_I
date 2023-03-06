@@ -4,11 +4,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Bogus;
 using CDatos;
+using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace CNegocio
 {
@@ -29,8 +31,6 @@ namespace CNegocio
         private string fecha;
         private bool estado;
 
-
-
         private UsuarioD usuarioD = new UsuarioD();
 
         public int Id { get => id; set => id = value; }
@@ -48,16 +48,17 @@ namespace CNegocio
         public int Almacen_id { get => almacen_id; set => almacen_id = value; }
         public string Almacen { get => almacen; set => almacen = value; }
 
-        public int GetTotalUsuarios(int limit = 10, int offset = 0, string busqueda = "%%")
+        public int CountUsuarios(int limit = 10, int offset = 0, string busqueda = "%%")
         {
             DataRow R = usuarioD.SelectData(limit, offset, busqueda, true).Rows[0];
             return int.Parse(R["totalUsuarios"].ToString());
         }
-        public List<Usuario> getUsuarios(int limit = 10, int offset = 0, string busqueda = "")
+
+        public List<Usuario> GetUsuarios(int limit = 10, int offset = 0, string busqueda = "")
         {
             List<Usuario> listaUsuarios = new List<Usuario>();
 
-            foreach (DataRow R in usuarioD.SelectData(limit, offset, busqueda).Rows)
+            foreach (DataRow R in usuarioD.SelectData(limit, offset, busqueda, false).Rows)
             {
                 Usuario usuario = new Usuario
                 {
@@ -83,18 +84,74 @@ namespace CNegocio
             return listaUsuarios;
         }
 
-        public void ActualizarUsuario()
+        public void CrearUsuario()
         {
-            usuarioD.UpdateData(this.id, this.nombre, this.apellido,
-                this.ci, this.telefono, this.username, this.contrasena, this.horarioLaboral, this.Rol_id, this.Almacen_id, this.estado);
+            usuarioD.InsertData(Nombre, Apellido, Ci, Telefono, Username, HashPassword(Contrasena), HorarioLaboral, Rol_id, Almacen_id, Estado);
         }
-        public void GenerarUsuarios()
+
+        public void ActualizarUsuario(bool isPassword = false)
+        {
+            string password = Contrasena;
+            if (isPassword) password = HashPassword(Contrasena);
+
+            usuarioD.UpdateData(Id, Nombre, Apellido, Ci, Telefono, Username, password, HorarioLaboral, Rol_id, Almacen_id, Estado);
+        }
+
+        public Usuario Login(string username, string password)
+        {
+            DataRow R = usuarioD.SelectOneData("username", username);
+
+            if (R != null)
+            {
+                Usuario usuario = new Usuario
+                {
+                    Id = int.Parse(R["id"].ToString()),
+                    Nombre = R["nombre"].ToString(),
+                    Apellido = R["apellido"].ToString(),
+                    Ci = R["ci"].ToString(),
+                    Telefono = R["telefono"].ToString(),
+                    Username = R["username"].ToString(),
+                    Contrasena = R["contrasena"].ToString(),
+                    HorarioLaboral = R["horarioLaboral"].ToString(),
+                    Rol_id = int.Parse(R["rol_id"].ToString()),
+                    Rol = R["rol"].ToString(),
+                    Almacen_id = int.Parse(R["almacen_id"].ToString()),
+                    Almacen = R["almacen"].ToString(),
+                    Estado = bool.Parse(R["estado"].ToString()),
+                };
+
+                if (HashPassword(password).Equals(usuario.Contrasena))
+                {
+                    RolD rolD = new RolD();
+
+                    if (usuario.Estado && bool.Parse(rolD.SelectOneData("nombre", usuario.Rol)["estado"].ToString()))
+                    {
+                        return usuario;
+                    }
+
+                    MessageBox.Show("El usuario no esta activo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                };
+            }
+
+            MessageBox.Show("Usuario o contrasena incorrectas", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            return null;
+        }
+
+        public bool CheckSiExisteUsuario(string campo, string value)
+        {
+            return (usuarioD.SelectOneData(campo, value) != null);
+        }
+
+        public void GenerarUsuarios(int limit)
         {
             try
             {
-                Faker faker = new Faker("es");
+                Faker faker = new Faker("es_MX");
 
-                for (int i = 0; i < 200; i++)
+                var horarios = new[] { "Manana", "Medio Dia", "Tarde", "Noche" };
+
+                for (int i = 0; i < limit; i++)
                 {
                     string nombre = faker.Name.FirstName();
                     string apellido = faker.Name.LastName();
@@ -104,23 +161,35 @@ namespace CNegocio
                         nombre = nombre,
                         apellido = apellido,
                         ci = faker.Random.AlphaNumeric(9),
-                        telefono = faker.Phone.PhoneNumberFormat(),
+                        telefono = faker.Phone.PhoneNumber("########"),
                         username = $"{nombre}_{apellido}{faker.Random.Number(0, 999)}",
                         contrasena = "123456",
-                        horarioLaboral = "12:00am - 20:00pm",
+                        horarioLaboral = faker.PickRandom(horarios),
                         rol_id = 1,
                         almacen_id = 1,
                         estado = faker.Random.Bool(),
                     };
 
-                    usuarioD.InsertData(usuario.nombre, usuario.apellido, usuario.ci, usuario.telefono, usuario.username, usuario.contrasena, usuario.horarioLaboral, usuario.rol_id, usuario.almacen_id, usuario.estado);
+
+                    if (usuario.CheckSiExisteUsuario("username", usuario.username)) usuario.username += faker.Random.Word();
+
+                    usuario.CrearUsuario();
 
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message.ToString());
+                MessageBox.Show($"ERROR AL GENERAR \n{e.Message}");
             }
+        }
+
+        private string HashPassword(string contrasena)
+        {
+            var sha = SHA256.Create();
+            var byteArray = Encoding.Default.GetBytes(contrasena);
+            var hash = sha.ComputeHash(byteArray);
+
+            return Convert.ToBase64String(hash);
         }
     }
 }

@@ -150,6 +150,16 @@ namespace CNegocio
             return (usuarioD.SelectOneData(campo, value) != null);
         }
 
+        private string HashPassword(string contrasena)
+        {
+            var sha = SHA256.Create();
+            var byteArray = Encoding.Default.GetBytes(contrasena);
+            var hash = sha.ComputeHash(byteArray);
+
+            return Convert.ToBase64String(hash);
+        }
+
+        //FUNCION DE PRUEBA
         public void GenerarUsuarios(int limit)
         {
             try
@@ -190,13 +200,6 @@ namespace CNegocio
             }
         }
 
-        private string HashPassword(string contrasena)
-        {
-            var sha = SHA256.Create();
-            var byteArray = Encoding.Default.GetBytes(contrasena);
-            var hash = sha.ComputeHash(byteArray);
-
-            return Convert.ToBase64String(hash);
-        }
+        
     }
 }

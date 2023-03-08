@@ -54,7 +54,7 @@ CREATE TABLE Zapato(
 
 CREATE TABLE Reporte(
 	id int NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	observaciones  nvarchar(255) NOT NULL,
+	observaciones  nvarchar(255) NULL,
 	usuario_id  int NOT NULL FOREIGN KEY REFERENCES Usuario(id),
 	fecha datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
 )

@@ -100,7 +100,7 @@
     <Compile Include="Pages\Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\GenerarReporte.xaml.cs">
+    <Compile Include="Pages\Reportes\GenerarReporte.xaml.cs">
       <DependentUpon>GenerarReporte.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Productos\CrearProducto.xaml.cs">
@@ -109,7 +109,10 @@
     <Compile Include="Pages\Productos\ListaProductos.xaml.cs">
       <DependentUpon>ListaProductos.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ReporteView.xaml.cs">
+    <Compile Include="Pages\Reportes\Reportes.xaml.cs">
+      <DependentUpon>Reportes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reportes\ReporteView.xaml.cs">
       <DependentUpon>ReporteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Usuarios\CrearRol.xaml.cs">
@@ -159,7 +162,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\GenerarReporte.xaml">
+    <Page Include="Pages\Reportes\GenerarReporte.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -171,7 +174,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ReporteView.xaml">
+    <Page Include="Pages\Reportes\Reportes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Reportes\ReporteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

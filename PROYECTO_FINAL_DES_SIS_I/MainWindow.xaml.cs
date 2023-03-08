@@ -26,11 +26,12 @@ namespace PROYECTO_FINAL_DES_SIS_I
             {"Lista de Usuarios", "Pages/Usuarios/ListaUsuarios.xaml"},//
             {"Administracion de Roles", "Pages/Usuarios/ListaRoles.xaml"},//
             {"Lista de Zapatos", "Pages/Productos/ListaProductos.xaml"},//
-            {"Reportes", "Pages/GenerarReporte.xaml"},//
-            {"Agregar Zapato", "Pages/Productos/CrearProducto.xaml"},//
+             {"Agregar Zapato", "Pages/Productos/CrearProducto.xaml"},//
             {"Almacen", "Pages/Almacens/Formulario.xaml"}, //PEDINDIENTE
             {"Generacion de Data", "Pages/GenerarData.xaml"},
-        }; 
+             {"Reportes", "Pages/Reportes/Reportes.xaml"},//
+             {"Nuevo Reporte", "Pages/Reportes/GenerarReporte.xaml"},//
+        };
 
         public MainWindow(Usuario _usuario)
         {
@@ -70,7 +71,7 @@ namespace PROYECTO_FINAL_DES_SIS_I
                   //DAR BIENVENIDa
               }*/
 
-          
+
 
             _ts = new Toast.Toast();
             Unloaded += OnUnload;

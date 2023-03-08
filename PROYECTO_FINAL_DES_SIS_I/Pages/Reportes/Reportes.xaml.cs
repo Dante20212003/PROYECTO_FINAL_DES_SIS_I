@@ -12,24 +12,40 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CNegocio;
 
-namespace PROYECTO_FINAL_DES_SIS_I.Pages
+namespace PROYECTO_FINAL_DES_SIS_I.Pages.Reportes
 {
     /// <summary>
-    /// Interaction logic for GenerarReporte.xaml
+    /// Interaction logic for Reportes.xaml
     /// </summary>
-    public partial class GenerarReporte : Page
+    public partial class Reportes : Page
     {
-        public GenerarReporte()
+        private Reporte reporte = new Reporte();
+        public Reportes()
         {
             InitializeComponent();
         }
 
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            ListarReportes();
+        }
+
+        public void ListarReportes()
+        {
+            if (DataGrid != null)
+            {
+                var data = reporte.GetReportes();
+
+                DataGrid.ItemsSource = data;
+            }
+        }
+
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ReporteView reporte = new ReporteView();
 
-            reporte.Show();
         }
     }
 }

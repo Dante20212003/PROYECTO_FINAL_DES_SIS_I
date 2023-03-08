@@ -125,7 +125,6 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
                 return;
             }
 
-            MessageBox.Show(imagenProduct.Uri.ToString());
             Zapato zapato = new Zapato()
             {
                 Nombre = txtCodigo.Text,
@@ -135,12 +134,15 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
                 Color = txtColor.Text,
                 Stock = int.Parse(txtStock.Text),
                 Precio = decimal.Parse(txtPrecio.Text),
-                Img = imagenProduct.Uri.ToString().Replace("file:///", ""),
                 Usuario_id = MainWindow.usuario.Id,
                 Estado = bool.Parse(cbxEstado.SelectedValue.ToString()),
             };
 
-            MessageBox.Show(zapato.Img);
+            if (imagenProduct.Uri !=null)
+            {
+                zapato.Img = imagenProduct.Uri.ToString().Replace("file:///", "");
+            }
+
 
             if (this.zapato != null)
             {

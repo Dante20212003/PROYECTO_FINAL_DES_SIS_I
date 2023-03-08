@@ -208,6 +208,33 @@
                                 </hc:SideMenuItem>
                             </hc:SideMenuItem>
 
+                            <hc:SideMenuItem Header="Reportes"
+                                             Padding="8">
+                                <hc:SideMenuItem.Icon>
+                                    <Icon:PackIconMaterial Kind="ChartTree"
+                                                           Width="25"
+                                                           Height="25" />
+                                </hc:SideMenuItem.Icon>
+
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Reportes"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                    <hc:SideMenuItem.Icon>
+                                        <Icon:PackIconMaterial Kind="ChartGantt" />
+                                    </hc:SideMenuItem.Icon>
+                                </hc:SideMenuItem>
+
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Nuevo Reporte"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                    <hc:SideMenuItem.Icon>
+                                        <Icon:PackIconMaterial Kind="FileChart" />
+                                    </hc:SideMenuItem.Icon>
+                                </hc:SideMenuItem>
+                            </hc:SideMenuItem>
+
                             <hc:SideMenuItem Header="CONFIGURACION"
                                              Padding="8">
                                 <hc:SideMenuItem.Icon>

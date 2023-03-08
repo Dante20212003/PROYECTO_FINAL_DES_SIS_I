@@ -101,6 +101,7 @@
                    RowHeaderWidth="100"
                    Width="Auto"
                    Height="Auto"
+                   RowHeight="100"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    AutoGenerateColumns="False"
@@ -235,16 +236,17 @@
                                     Header="Precio"
                                     MinWidth="100"
                                     Width="Auto" />
+                <DataGridTemplateColumn Header="Imagen"
+                                        CanUserSort="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Img}"
+                                       Stretch="Uniform" />
+                        </DataTemplate>
 
-                <DataGridTextColumn Binding="{Binding Img}"
-                                    Header="Img"
-                                    MinWidth="100"
-                                    Width="Auto" />
+                    </DataGridTemplateColumn.CellTemplate>
 
-                <DataGridTextColumn Binding="{Binding Usuario}"
-                                    Header="Fecha"
-                                    MinWidth="100"
-                                    Width="Auto" />
+                </DataGridTemplateColumn>
 
                 <DataGridTextColumn Binding="{Binding Fecha}"
                                     Header="Fecha"
@@ -273,6 +275,14 @@
                             Background="{DynamicResource RegionBrush}"
                             Padding="10">
                         <StackPanel Orientation="Vertical">
+
+                            <StackPanel Background="LightGray">
+                                <Image Source="{Binding Img}"
+                                       Width="300"
+                                       Margin="0,10" />
+
+                            </StackPanel>
+                            
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontSize="15"
                                            FontWeight="Bold"
@@ -285,6 +295,8 @@
                                            VerticalAlignment="Center"
                                            Style="{StaticResource TextBlockLarge}" />
                             </StackPanel>
+                            
+                            
 
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontSize="15"

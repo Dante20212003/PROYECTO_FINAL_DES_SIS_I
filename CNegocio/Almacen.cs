@@ -22,13 +22,13 @@ namespace CNegocio
         public string Telefono { get => telefono; set => telefono = value; }
         public string Direccion { get => direccion; set => direccion = value; }
 
-        public List<Almacen> GetAlmacenes(string busqueda = "")
+        public List<Almacen> GetAlmacenes()
         {
             List<Almacen> listaAlmacenes = new List<Almacen>();
 
-            foreach (DataRow R in almacenD.SelectData(busqueda).Rows)
+            foreach (DataRow R in almacenD.SelectData().Rows)
             {
-                Almacen rol = new Almacen
+                Almacen almacen = new Almacen
                 {
                     Id = int.Parse(R["id"].ToString()),
                     Nombre = R["nombre"].ToString(),
@@ -36,10 +36,30 @@ namespace CNegocio
                     Direccion = R["direccion"].ToString(),
                 };
 
-                listaAlmacenes.Add(rol);
+                listaAlmacenes.Add(almacen);
             }
 
             return listaAlmacenes;
+        }
+
+        public Almacen GetAlmacen(int id)
+        {
+            DataRow R = almacenD.SelectOneData(id);
+
+            if (R != null)
+            {
+                Almacen almacen = new Almacen
+                {
+                    Id = int.Parse(R["id"].ToString()),
+                    Nombre = R["nombre"].ToString(),
+                    Telefono = R["telefono"].ToString(),
+                    Direccion = R["direccion"].ToString(),
+                };
+
+                return almacen;
+            }
+
+            return null;
         }
 
         public void CrearAlmacen()

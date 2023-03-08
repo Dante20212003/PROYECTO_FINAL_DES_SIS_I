@@ -127,6 +127,7 @@
                         Width="100"
                         Click="btnAgregar_Click"
                         Content="Agregar"
+                        x:Name="btnAgregar"
                         Cursor="Hand"
                         Style="{StaticResource ButtonPrimary}" />
 

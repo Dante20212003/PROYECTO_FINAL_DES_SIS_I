@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="ADMINISTRACION DE USUARIOS"
+        <TextBlock Text="ADMINISTRACION DE ROLES"
                    FontSize="20"
                    FontWeight="DemiBold"
                    HorizontalAlignment="Left"
@@ -92,11 +92,39 @@
                    hc:Empty.ShowEmpty="True"
                    IsReadOnly="True">
 
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type CheckBox}"
+                       x:Key="checkAdmin"
+                       BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Nombre}"
+                                     Value="Administrador">
+                            <Setter Property="IsEnabled"
+                                    Value="False" />
+
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style TargetType="{x:Type ContextMenu}"
+                       x:Key="checkAdminItem"
+                       BasedOn="{StaticResource {x:Type ContextMenu}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Nombre}"
+                                     Value="Administrador">
+                            <Setter Property="IsEnabled"
+                                    Value="False" />
+
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+
             <DataGrid.ContextMenu>
-                <ContextMenu>
+                <ContextMenu Style="{StaticResource checkAdminItem}">
                     <MenuItem Header="Editar"
                               Click="Editar_Click" />
-                    
+
                     <MenuItem Header="Activar"
                               Click="toogleEstadoCtxItem_Click" />
                     <MenuItem Header="Desactivar"
@@ -168,6 +196,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=Estado, UpdateSourceTrigger=PropertyChanged}"
+                                      Style="{StaticResource checkAdmin}"
                                       Click="CheckBox_Click" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

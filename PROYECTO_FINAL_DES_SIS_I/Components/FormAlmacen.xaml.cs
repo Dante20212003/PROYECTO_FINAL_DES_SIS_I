@@ -28,6 +28,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Components
         {
             init = _init;
             InitializeComponent();
+
             if (_almacen != null)
             {
                 almacen = _almacen;
@@ -186,31 +187,31 @@ namespace PROYECTO_FINAL_DES_SIS_I.Components
             }
         }
 
-        /* public static readonly DependencyProperty UsernameProperty =
-             DependencyProperty.Register("Titulo", typeof(string), typeof(FormAlmacen), new PropertyMetadata(string.Empty));
+        public static readonly DependencyProperty UsernameProperty =
+            DependencyProperty.Register("Titulo", typeof(string), typeof(FormAlmacen), new PropertyMetadata(string.Empty));
 
-         public static readonly DependencyProperty AgeProperty =
-             DependencyProperty.Register("Total", typeof(int), typeof(FormAlmacen), new PropertyMetadata(0));
+        public static readonly DependencyProperty AgeProperty =
+            DependencyProperty.Register("Total", typeof(int), typeof(FormAlmacen), new PropertyMetadata(0));
 
-         public static readonly DependencyProperty FavoriteColorProperty =
-             DependencyProperty.Register("Color", typeof(Color), typeof(FormAlmacen), new PropertyMetadata(Color.FromRgb(0, 0, 0)));
+        public static readonly DependencyProperty FavoriteColorProperty =
+            DependencyProperty.Register("Color", typeof(Color), typeof(FormAlmacen), new PropertyMetadata(Color.FromRgb(0, 0, 0)));
 
-         public string Titulo
-         {
-             get { return (string)GetValue(UsernameProperty); }
-             set { SetValue(UsernameProperty, value); }
-         }
+        public string Titulo
+        {
+            get { return (string)GetValue(UsernameProperty); }
+            set { SetValue(UsernameProperty, value); }
+        }
 
-         public int Total
-         {
-             get { return (int)GetValue(AgeProperty); }
-             set { SetValue(AgeProperty, value); }
-         }
+        public int Total
+        {
+            get { return (int)GetValue(AgeProperty); }
+            set { SetValue(AgeProperty, value); }
+        }
 
-         public Color Color
-         {
-             get { return (Color)GetValue(FavoriteColorProperty); }
-             set { SetValue(FavoriteColorProperty, value); }
-         }*/
+        public Color Color
+        {
+            get { return (Color)GetValue(FavoriteColorProperty); }
+            set { SetValue(FavoriteColorProperty, value); }
+        }
     }
 }

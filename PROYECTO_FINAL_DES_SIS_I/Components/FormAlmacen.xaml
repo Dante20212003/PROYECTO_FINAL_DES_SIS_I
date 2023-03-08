@@ -6,9 +6,11 @@
              xmlns:local="clr-namespace:PROYECTO_FINAL_DES_SIS_I.Components"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d"
-             Unloaded="UserControl_Unloaded">
+             Unloaded="UserControl_Unloaded"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
     <hc:Card Width="400"
-             Height="Auto"
+             
              BorderThickness="2">
         <!--HEADER-->
         <hc:Card.Header>
@@ -147,7 +149,6 @@
                             Width="100"
                             Cursor="Hand"
                             x:Name="btnCancelar"
-                      
                             Margin="20 0"
                             Style="{StaticResource ButtonDanger}" />
 

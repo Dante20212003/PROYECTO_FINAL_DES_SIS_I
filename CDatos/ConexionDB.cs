@@ -11,11 +11,14 @@ namespace CDatos
         private SqlDataAdapter da;
         private SqlCommand comm;
 
+        private string equipo = "DESKTOP-HA2D645";
+        private string db = "ProyectoInventarioBorrar2";
+
         public void Conectar()
         {
             try
             {
-                connection = new SqlConnection("Data Source=DESKTOP-HA2D645;Initial Catalog=Inventario;Integrated Security=True");
+                connection = new SqlConnection($"Data Source={equipo};Initial Catalog={db};Integrated Security=True");
             }
             catch (Exception e)
             {
@@ -61,6 +64,7 @@ namespace CDatos
             catch (Exception e)
             {
                 MessageBox.Show($"Error en DB (InsertOrUpdate): \n{e.Message}");
+                MessageBox.Show(query);
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -27,6 +28,7 @@ namespace CNegocio
         private int rol_id;
         private string rol;
         private int almacen_id;
+        private int persona_id;
         private string almacen;
         private string fecha;
         private bool estado;
@@ -47,6 +49,7 @@ namespace CNegocio
         public string Rol { get => rol; set => rol = value; }
         public int Almacen_id { get => almacen_id; set => almacen_id = value; }
         public string Almacen { get => almacen; set => almacen = value; }
+        public int Persona_id { get => persona_id; set => persona_id = value; }
 
         public int CountUsuarios(int limit = 10, int offset = 0, string busqueda = "%%")
         {
@@ -74,7 +77,8 @@ namespace CNegocio
                     Rol = R["rol"].ToString(),
                     Almacen_id = int.Parse(R["almacen_id"].ToString()),
                     Almacen = R["almacen"].ToString(),
-                    Fecha = R["fecha"].ToString(),
+                    Persona_id = int.Parse(R["persona_id"].ToString()),
+                    Fecha = Convert.ToDateTime(R["fecha"].ToString()).ToString("dddd dd MMMM 'de' yyyy hh:mm", CultureInfo.CreateSpecificCulture("es-ES")),
                     Estado = bool.Parse(R["estado"].ToString()),
                 };
 
@@ -94,7 +98,7 @@ namespace CNegocio
             string password = Contrasena;
             if (isPassword) password = HashPassword(Contrasena);
 
-            usuarioD.UpdateData(Id, Nombre, Apellido, Ci, Telefono, Username, password, HorarioLaboral, Rol_id, Almacen_id, Estado);
+            usuarioD.UpdateData(Id, Nombre, Apellido, Ci, Telefono, Username, password, HorarioLaboral, Rol_id, Almacen_id, Persona_id, Estado, isPassword);
         }
 
         public Usuario Login(string username, string password)
@@ -117,6 +121,7 @@ namespace CNegocio
                     Rol = R["rol"].ToString(),
                     Almacen_id = int.Parse(R["almacen_id"].ToString()),
                     Almacen = R["almacen"].ToString(),
+                    Persona_id = int.Parse(R["persona_id"].ToString()),
                     Estado = bool.Parse(R["estado"].ToString()),
                 };
 
@@ -130,6 +135,8 @@ namespace CNegocio
                     }
 
                     MessageBox.Show("El usuario no esta activo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    return null;
                 };
             }
 

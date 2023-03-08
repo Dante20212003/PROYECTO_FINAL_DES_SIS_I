@@ -1,0 +1,102 @@
+﻿<Window x:Class="PROYECTO_FINAL_DES_SIS_I.Pages.ReporteView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        mc:Ignorable="d"
+        Title="ReporteView"
+        Height="450"
+        Width="800"
+        Loaded="Window_Loaded">
+    <Border Padding="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock FontSize="30"
+                       FontWeight="Bold"
+                       Text="ZAPATOS EN INVENTARIO"
+                       TextAlignment="Center" />
+            <DataGrid  RowDetailsVisibilityMode="Collapsed"
+                       x:Name="DataGrid"
+                       Grid.Row="3"
+                       HeadersVisibility="All"
+                       RowHeaderWidth="100"
+                       Width="Auto"
+                       Height="Auto"
+                       RowHeight="100"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       AutoGenerateColumns="False"
+                       EnableRowVirtualization="True"
+                       VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                       VirtualizingPanel.VirtualizationMode="Standard"
+                       VirtualizingPanel.IsVirtualizing="True"
+                       ScrollViewer.CanContentScroll="True"
+                       IsReadOnly="True">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}"
+                                        Header="#"
+                                        MinWidth="50" />
+                    <DataGridTextColumn Binding="{Binding Codigo}"
+                                        Header="Codigo"
+                                        MinWidth="100"
+                                        Width="Auto" />
+                    <DataGridTextColumn Binding="{Binding Nombre}"
+                                        Header="Nombre"
+                                        MinWidth="100"
+                                        Width="Auto" />
+                    <DataGridTextColumn Binding="{Binding Modelo}"
+                                        Header="Modelo"
+                                        MinWidth="100"
+                                        Width="Auto" />
+                    <DataGridTextColumn Binding="{Binding Stock}"
+                                        Header="Stock"
+                                        MinWidth="100"
+                                        Width="Auto" />
+                    <DataGridTextColumn Binding="{Binding Talla}"
+                                        Header="Talla"
+                                        MinWidth="100"
+                                        Width="Auto" />
+                    <DataGridTextColumn Binding="{Binding Color}"
+                                        Header="Color"
+                                        MinWidth="100"
+                                        Width="Auto" />
+                    
+                    <DataGridTextColumn Binding="{Binding Precio}"
+                                        Header="Precio"
+                                        MinWidth="100"
+                                        Width="Auto" />
+                    <DataGridTemplateColumn Header="Imagen"
+                                            CanUserSort="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Img}"
+                                       Stretch="Uniform" />
+                            </DataTemplate>
+
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
+                    
+                    <DataGridTextColumn Binding="{Binding Usuario}"
+                                        Header="Agregado por"
+                                        MinWidth="100"
+                                        Width="Auto" />
+                    
+                    <DataGridTextColumn Binding="{Binding Fecha}"
+                                        Header="Fecha"
+                                        MinWidth="100"
+                                        Width="Auto" />
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+        </Grid>
+    </Border>
+</Window>

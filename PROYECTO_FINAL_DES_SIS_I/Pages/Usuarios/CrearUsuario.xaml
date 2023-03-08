@@ -6,7 +6,8 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
-             Loaded="Page_Loaded">
+             Loaded="Page_Loaded"
+             >
 
     <Grid Background="{DynamicResource RegionBrush}">
         <Grid.RowDefinitions>
@@ -427,6 +428,7 @@
                 <Button Grid.Column="1"
                         Width="100"
                         Click="btnAgregar_Click"
+                        x:Name="btnAgregar"
                         Content="Agregar"
                         Cursor="Hand"
                         Style="{StaticResource ButtonPrimary}" />

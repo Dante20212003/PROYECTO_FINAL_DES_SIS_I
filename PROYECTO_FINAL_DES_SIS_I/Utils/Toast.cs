@@ -20,8 +20,8 @@ namespace Toast
             _notifier = new Notifier(cfg =>
             {
                 cfg.PositionProvider = new PrimaryScreenPositionProvider(
-                  
-                    corner: Corner.BottomRight,
+                    corner: Corner.TopRight,
+                 
                     offsetX: 25,
                     offsetY: 40);
 
@@ -31,7 +31,7 @@ namespace Toast
 
                 cfg.Dispatcher = Application.Current.Dispatcher;
 
-                cfg.DisplayOptions.TopMost = false;
+                cfg.DisplayOptions.TopMost = true;
                 cfg.DisplayOptions.Width = 250;
             });
 

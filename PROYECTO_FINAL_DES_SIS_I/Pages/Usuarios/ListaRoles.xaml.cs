@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CDatos;
 using CNegocio;
 using HandyControl.Controls;
 using MessageBox = HandyControl.Controls.MessageBox;
@@ -50,8 +51,15 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
 
-            Rol rolRo = (Rol)DataGrid.SelectedItem;
-            rolRo.ActualizarRol();
+            Rol rolRow = (Rol)DataGrid.SelectedItem;
+
+            if (rolRow.Id == 1)
+            {
+                MainWindow.mostrarToast(MainWindow._ts.ShowError, "No puedes modificar el estado de los administradores");
+                return;
+            }
+
+            rolRow.ActualizarRol();
             MainWindow.mostrarToast(MainWindow._ts.ShowSuccess, "Rol actualizado con exito.");
 
         }
@@ -73,13 +81,22 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
                 return;
             }
 
+
+
             MenuItem menuItem = (MenuItem)sender;
             string opcion = menuItem.Header.ToString();
 
-            foreach (Rol rolRo in DataGrid.SelectedItems)
+            foreach (Rol rolRow in DataGrid.SelectedItems)
             {
-                rolRo.Estado = opcion == "Activar" ? true : false;
-                rolRo.ActualizarRol();
+
+                if (rolRow.Id == 1)
+                {
+                    MainWindow.mostrarToast(MainWindow._ts.ShowError, "No puedes modificar el estado de los administradores");
+                    return;
+                }
+
+                rolRow.Estado = opcion == "Activar" ? true : false;
+                rolRow.ActualizarRol();
             }
 
             DataGrid.Items.Refresh();
@@ -111,9 +128,26 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
 
         private void Editar_Click(object sender, RoutedEventArgs e)
         {
+
+            if (DataGrid.SelectedItems.Count == 0)
+            {
+                MainWindow._ts.ShowInformation("Seleccione un registro");
+                return;
+            }
+
             Rol rol = (Rol)DataGrid.SelectedItems[0];
+            if (rol.Id == 1)
+            {
+                if (MainWindow.usuario.Username == "admin")
+                {
+                    Modal(true, rol);
+                }
+                MainWindow._ts.ShowError("No puedes editar el rol Administrador");
+                return;
+            }
             Modal(true, rol);
         }
+
         private void BtnNuevo_Click(object sender, RoutedEventArgs e)
         {
             Modal();

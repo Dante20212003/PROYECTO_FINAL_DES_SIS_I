@@ -15,9 +15,7 @@ using System.Windows.Shapes;
 
 namespace PROYECTO_FINAL_DES_SIS_I.Components
 {
-    /// <summary>
-    /// Interaction logic for CardDashboard.xaml
-    /// </summary>
+    
     public partial class CardDashboard : UserControl
     {
         public CardDashboard()

@@ -44,9 +44,17 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
 
             if (rol != null)
             {
+                btnAgregar.Content = "Actualizar";
                 title.Text = "Actualizar";
                 txtNombre.Text = rol.Nombre;
                 cbxEstado.SelectedValue = rol.Estado.ToString();
+
+                if (rol.Id == 1)
+                {
+                    txtNombre.IsEnabled = false;
+                    cbxEstado.IsEnabled = false;
+                    btnAgregar.IsEnabled = false;
+                }
             }
         }
 

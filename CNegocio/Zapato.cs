@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bogus;
 using CDatos;
+using HandyControl.Controls;
 
 namespace CNegocio
 {
@@ -46,13 +49,13 @@ namespace CNegocio
             return int.Parse(R["totalZapatos"].ToString());
         }
 
-        public List<Zapato> GetZapatos(int limit = 10, int offset = 0, string busqueda = "")
+        public List<Zapato> GetZapatos(int limit = 10, int offset = 0, string busqueda = "", bool isCount = false, bool isStock = false, bool today = false)
         {
             List<Zapato> listaZapatos = new List<Zapato>();
 
-            foreach (DataRow R in zapatoD.SelectData(limit, offset, busqueda, false).Rows)
+            foreach (DataRow R in zapatoD.SelectData(limit, offset, busqueda, isCount, isStock, today).Rows)
             {
-                Zapato usuario = new Zapato
+                Zapato zapato = new Zapato
                 {
                     Id = int.Parse(R["id"].ToString()),
                     Nombre = R["nombre"].ToString(),
@@ -65,11 +68,13 @@ namespace CNegocio
                     Img = R["img"].ToString(),
                     Usuario_id = int.Parse(R["usuario_id"].ToString()),
                     Usuario = R["usuario"].ToString(),
-                    Fecha = R["fecha"].ToString(),
+                    Fecha = Convert.ToDateTime(R["fecha"].ToString()).ToString("dddd dd MMMM 'de' yyyy hh:mm", CultureInfo.CreateSpecificCulture("es-ES")),
                     Estado = bool.Parse(R["estado"].ToString()),
                 };
 
-                listaZapatos.Add(usuario);
+                if (zapato.Img.Length == 0) zapato.Img = "https://images.vexels.com/media/users/3/142961/isolated/preview/9031943c6d5353510bc611c6be779b2c-zapatos-rojos-zapatillas-ropa.png";
+
+                listaZapatos.Add(zapato);
             }
 
             return listaZapatos;
@@ -85,6 +90,76 @@ namespace CNegocio
             zapatoD.UpdateData(Id, Codigo, Nombre, Modelo, Talla, Color, Stock, Precio, Img, Usuario_id, Estado);
         }
 
+        public void GenerarZapatos(int limit)
+        {
+            try
+            {
+                Usuario usuario = new Usuario();
+                int limitUsuario = usuario.CountUsuarios();
+
+                Faker faker = new Faker("es_MX");
+
+                var colores = new[] { "Rojo", "Medio Dia", "Tarde", "Noche" };
+
+                for (int i = 0; i < limit; i++)
+                {
+                    int user_id = faker.Random.Number(1, limitUsuario);
+                    if (usuario.CheckSiExisteUsuario("u.id", user_id.ToString()))
+                    {
+                        Zapato zapato = new Zapato()
+                        {
+                            codigo = faker.Commerce.Ean8(),
+                            nombre = faker.Commerce.ProductName(),
+                            modelo = faker.Random.Words(faker.Random.Number(1, 3)),
+                            talla = faker.Random.Word(),
+                            color = faker.Commerce.Color(),
+                            stock = faker.Random.Number(0, 300),
+                            precio = decimal.Parse(faker.Commerce.Price(100, 700)),
+
+                            usuario_id = user_id,
+                            fecha = faker.Date.Recent().ToString(),
+                            estado = faker.Random.Bool()
+                        };
+
+                        zapato.CrearZapato();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"ERROR AL GENERAR \n{e.Message}");
+            }
+        }
+
+        public List<Zapato> GetAll()
+        {
+            List<Zapato> listaZapatos = new List<Zapato>();
+
+            foreach (DataRow R in zapatoD.SelectAllData().Rows)
+            {
+                Zapato zapato = new Zapato
+                {
+                    Id = int.Parse(R["id"].ToString()),
+                    Nombre = R["nombre"].ToString(),
+                    Codigo = R["Codigo"].ToString(),
+                    Modelo = R["modelo"].ToString(),
+                    Talla = R["talla"].ToString(),
+                    Color = R["color"].ToString(),
+                    Stock = int.Parse(R["stock"].ToString()),
+                    Precio = decimal.Parse(R["precio"].ToString()),
+                    Img = R["img"].ToString(),
+                    Usuario = R["usuario"].ToString(),
+                    Fecha = Convert.ToDateTime(R["fecha"].ToString()).ToString("dddd dd MMMM 'de' yyyy hh:mm", CultureInfo.CreateSpecificCulture("es-ES")),
+                    Estado = bool.Parse(R["estado"].ToString()),
+                };
+
+                if (zapato.Img.Length == 0) zapato.Img = "https://images.vexels.com/media/users/3/142961/isolated/preview/9031943c6d5353510bc611c6be779b2c-zapatos-rojos-zapatillas-ropa.png";
+
+                listaZapatos.Add(zapato);
+            }
+
+            return listaZapatos;
+        }
         /*
           id = 1,
                         codigo = faker.Finance.CreditCardNumber(),

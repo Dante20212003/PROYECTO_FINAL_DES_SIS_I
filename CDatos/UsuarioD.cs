@@ -11,35 +11,27 @@ namespace CDatos
 
         public DataTable SelectData(int limit = 10, int offset = 0, string query = "", bool isCount = false)
         {
-            string header = "";
-
-            if (isCount)
-            {
-                header += "SELECT COUNT(*) as totalUsuarios FROM Usuario u, Rol r, Almacen a ";
-            }
-            else
-            {
-                header += $"SELECT TOP {limit} * FROM (SELECT ROW_NUMBER() OVER (ORDER BY u.id DESC) AS numRow, " +
-                        "u.id, u.nombre, u.apellido, u.ci, u.telefono, u.username, u.contrasena, u.horarioLaboral, u.rol_id, r.nombre rol, u.almacen_id, a.nombre almacen, u.estado, u.fecha " +
-                        "FROM Usuario u, Rol r, Almacen a ";
-            }
+            string header = isCount ? "SELECT COUNT(*) totalUsuarios" : $"SELECT TOP {limit} *";
 
 
-            string sql = header +
-                "WHERE (u.rol_id = r.id AND u.almacen_id = a.id) " +
-                $"AND (u.nombre LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
-                $"OR u.apellido LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
-                $"OR u.ci LIKE '%{query}%'" +
-                $"OR u.telefono LIKE '%{query}%' " +
+            string sql = $"{header} FROM (SELECT ROW_NUMBER() OVER (ORDER BY u.id DESC) AS numRow, " +
+                    "u.id, p.nombre, p.apellido, p.ci, p.telefono, u.username, u.contrasena, u.horarioLaboral, u.rol_id, r.nombre rol, u.almacen_id, a.nombre almacen, u.persona_id, u.estado, u.fecha " +
+                    "FROM Usuario u, Persona p, Rol r, Almacen a " +
+
+                "WHERE (u.rol_id = r.id AND u.almacen_id = a.id AND u.persona_id = p.id) " +
+                $"AND (p.nombre LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
+                $"OR p.apellido LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
+                $"OR p.ci LIKE '%{query}%' " +
+                $"OR p.telefono LIKE '%{query}%' " +
                 $"OR u.username LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
                 $"OR u.horarioLaboral LIKE '%{query}%' " +
                 $"OR r.nombre LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
-                $"OR a.nombre LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI) ";
+                $"OR a.nombre LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI)) as users ";
 
             //PAGINACION
             if (!isCount)
             {
-                sql += $") as users WHERE users.numRow > {offset}";
+                sql += $"WHERE users.numRow > {offset}";
             }
 
             return conexion.Select(sql).Tables[0];
@@ -47,9 +39,9 @@ namespace CDatos
 
         public DataRow SelectOneData(string campo, string value)
         {
-            string sql = $"SELECT u.id, u.nombre, u.apellido, u.ci, u.telefono, u.username, u.contrasena, u.horarioLaboral, u.rol_id, r.nombre rol, u.almacen_id, a.nombre almacen, u.estado " +
-                $"FROM Usuario u, Rol r, Almacen a " +
-                $"WHERE (u.rol_id = r.id AND u.almacen_id = a.id) " +
+            string sql = $"SELECT u.id, p.nombre, p.apellido, p.ci, p.telefono, u.username, u.contrasena, u.horarioLaboral, u.rol_id, r.nombre rol, u.almacen_id, a.nombre almacen, u.persona_id, u.estado " +
+                $"FROM Usuario u, Persona p, Rol r, Almacen a " +
+                $"WHERE (u.rol_id = r.id AND u.almacen_id = a.id AND u.persona_id = p.id) " +
                 $"AND ({campo} = '{value}')";
 
             var result = conexion.Select(sql).Tables[0];
@@ -61,20 +53,28 @@ namespace CDatos
 
         public void InsertData(string nombre, string apellido, string ci, string telefono, string username, string contrasena, string horarioLaboral, int rol_id, int almacen_id, bool estado)
         {
-            string sql = $"INSERT INTO Usuario (nombre, apellido, ci, telefono, username, contrasena, horarioLaboral, rol_id, almacen_id, estado) " +
-                $"VALUES ('{nombre}', '{apellido}', '{ci}', '{telefono}', '{username}', '{contrasena}', '{horarioLaboral}', {rol_id}, {almacen_id}, {Convert.ToInt32(estado)});";
+            string sql = $"INSERT INTO Persona (nombre,apellido,telefono,ci) VALUES ('{nombre}', '{apellido}' ,'{telefono}','{ci}'); " +
+                "SELECT * FROM Persona WHERE id = SCOPE_IDENTITY() ;";
+
+            DataRow persona = conexion.Select(sql).Tables[0].Rows[0];
+
+            if (persona == null) return;
+
+            sql = $"INSERT INTO Usuario (username, contrasena, horarioLaboral, rol_id, almacen_id, persona_id, estado) " +
+                $"VALUES ('{username}', '{contrasena}', '{horarioLaboral}', {rol_id}, {almacen_id}, {persona["id"]}, {Convert.ToInt32(estado)});";
             conexion.InsertOrUpdate(sql);
         }
 
-        public void UpdateData(int id, string nombre, string apellido, string ci, string telefono, string username, string contrasena, string horarioLaboral, int rol_id, int almacen_id, bool estado, bool isPassword = false)
+        public void UpdateData(int id, string nombre, string apellido, string ci, string telefono, string username, string contrasena, string horarioLaboral, int rol_id, int almacen_id, int persona_id, bool estado, bool isPassword = false)
         {
-            string sql = $"UPDATE Usuario SET nombre='{nombre}', apellido='{apellido}', ci='{ci}', telefono='{telefono}', username='{username}', " +
-                $"horarioLaboral='{horarioLaboral}', rol_id={rol_id}, almacen_id={almacen_id}, estado={Convert.ToInt32(estado)} ";
+            string sql = $"UPDATE Persona SET nombre='{nombre}', apellido='{apellido}', ci='{ci}', telefono='{telefono}' " +
+                $"WHERE id={persona_id}";
+            conexion.InsertOrUpdate(sql);
+
+            sql = $"UPDATE Usuario SET  username='{username}', horarioLaboral='{horarioLaboral}', rol_id={rol_id}, almacen_id={almacen_id}, estado={Convert.ToInt32(estado)} ";
 
             if (isPassword) sql += $", contrasena='{contrasena}'";
-
             sql += $"WHERE id={id};";
-
             conexion.InsertOrUpdate(sql);
         }
     }

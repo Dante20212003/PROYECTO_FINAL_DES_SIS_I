@@ -20,6 +20,7 @@ using HandyControl.Tools.Extension;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Checbox = System.Windows.Controls.CheckBox;
 using MessageBox = HandyControl.Controls.MessageBox;
+using ToastNotifications.Position;
 
 
 namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
@@ -63,7 +64,14 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
 
+            if (DataGrid.SelectedItems.Count == 0)
+            {
+                MainWindow._ts.ShowInformation("Seleccione un registro");
+                return;
+            }
+
             Usuario usuarioRow = (Usuario)DataGrid.SelectedItem;
+
             if (usuarioRow.Username == "admin")
             {
                 usuarioRow.Estado = true;
@@ -82,6 +90,13 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
         {
             MessageBoxResult result = MessageBoxResult.Yes;
             int totalSeleccionados = DataGrid.SelectedItems.Count;
+
+
+            if (totalSeleccionados == 0)
+            {
+                MainWindow._ts.ShowInformation("Seleccione un registro");
+                return;
+            }
 
             if (totalSeleccionados > 1)
             {
@@ -102,6 +117,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
                 if (usuarioRow.Username == "admin")
                 {
                     MainWindow.mostrarToast(MainWindow._ts.ShowError, "No puedes desactivar al usuario admin");
+                    return;
                 }
                 else
                 {
@@ -173,7 +189,24 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
 
         private void Editar_Click(object sender, RoutedEventArgs e)
         {
+            if (DataGrid.SelectedItems.Count == 0)
+            {
+                MainWindow._ts.ShowInformation("Seleccione un registro");
+                return;
+            }
+
             Usuario usuario = (Usuario)DataGrid.SelectedItems[0];
+
+            if (usuario.Username == "admin")
+            {
+                if (MainWindow.usuario.Username == "admin")
+                {
+                    Modal(true, usuario);
+                }
+
+                MainWindow._ts.ShowError("No puedes editar al administrador");
+                return;
+            }
             Modal(true, usuario);
         }
 
@@ -181,12 +214,11 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
         {
             PopupWindow popup = new PopupWindow()
             {
-                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+
                 AllowsTransparency = true,
                 WindowStyle = WindowStyle.None,
                 Effect = null,
             };
-
 
             if (isEdit) popup.PopupElement = new CrearUsuario(usuario);
             else popup.PopupElement = new CrearUsuario();

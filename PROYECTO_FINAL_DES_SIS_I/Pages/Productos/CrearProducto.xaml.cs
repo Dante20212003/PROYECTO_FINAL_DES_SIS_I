@@ -17,6 +17,8 @@ using System.Windows.Shapes;
 using CDatos;
 using CNegocio;
 using HandyControl.Controls;
+using static System.Net.Mime.MediaTypeNames;
+using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using MessageBox = HandyControl.Controls.MessageBox;
 using TextBox = System.Windows.Controls.TextBox;
@@ -29,7 +31,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
     /// </summary>
     public partial class CrearProducto : Page
     {
-
+        private string imgUrl = "";
         private Zapato zapato;
 
         public CrearProducto(Zapato _zapato = null)
@@ -44,12 +46,10 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ListarUsuarios();
             ListarEstados();
 
             cbxEstado.SelectedValue = "True";
-            cbxUsuario.SelectedValue = 1;
-
+            cbxUsuario.Text = MainWindow.usuario.Nombre + " " + MainWindow.usuario.Apellido;
 
             if (zapato != null)
             {
@@ -61,20 +61,28 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
                 txtStock.Text = zapato.Stock.ToString();
                 txtPrecio.Text = zapato.Precio.ToString();
 
+                btnAgregar.Content = "Actualizar";
+                btnCambiarImagen.Visibility = Visibility.Visible;
+
+                string url = zapato.Img;
+
+                if (zapato.Img.Length == 0) url = "https://images.vexels.com/media/users/3/142961/isolated/preview/9031943c6d5353510bc611c6be779b2c-zapatos-rojos-zapatillas-ropa.png";
+
+                BitmapImage image = new BitmapImage(new Uri(url, UriKind.Absolute));
+                imageView.Source = image;
+                imageView.Visibility = Visibility.Visible;
+                imagenProduct.Visibility = Visibility.Collapsed;
+
+
                 try
                 {
-                    imagenProduct.Visibility = Visibility.Collapsed;
 
-    
-                    imageView.ImageSource = BitmapFrame.Create(new FileStream(zapato.Img.Replace("file:///", ""), FileMode.Open, FileAccess.Read, FileShare.Read));
-                    imageView.Visibility = Visibility.Visible;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message.ToString());
                 }
                 cbxEstado.SelectedValue = zapato.Estado.ToString();
-                cbxUsuario.SelectedValue = zapato.Usuario_id;
             }
         }
 
@@ -90,16 +98,6 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
             cbxEstado.SelectedValuePath = "Value";
             cbxEstado.ItemsSource = data;
 
-        }
-
-        public void ListarUsuarios()
-        {
-            Usuario usuario = new Usuario();
-            var data = usuario.GetUsuarios();
-
-            cbxUsuario.DisplayMemberPath = "Nombre";
-            cbxUsuario.SelectedValuePath = "Id";
-            cbxUsuario.ItemsSource = data;
         }
 
         private void btnAgregar_Click(object sender, RoutedEventArgs e)
@@ -127,8 +125,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
                 return;
             }
 
-            int usuario_id = ((Usuario)cbxUsuario.SelectedItem).Id;
-
+            MessageBox.Show(imagenProduct.Uri.ToString());
             Zapato zapato = new Zapato()
             {
                 Nombre = txtCodigo.Text,
@@ -138,10 +135,12 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
                 Color = txtColor.Text,
                 Stock = int.Parse(txtStock.Text),
                 Precio = decimal.Parse(txtPrecio.Text),
-                Img = imagenProduct.Uri.ToString(),
-                Usuario_id = usuario_id,
+                Img = imagenProduct.Uri.ToString().Replace("file:///", ""),
+                Usuario_id = MainWindow.usuario.Id,
                 Estado = bool.Parse(cbxEstado.SelectedValue.ToString()),
             };
+
+            MessageBox.Show(zapato.Img);
 
             if (this.zapato != null)
             {
@@ -344,18 +343,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
         {
             if (value == "")
             {
-                lblUsuario.Content = "El rol es requerido";
-                lblUsuario.Visibility = Visibility.Visible;
-                return false;
-            }
-
-            try
-            {
-                int usuario_id = ((Usuario)cbxUsuario.SelectedItem).Id;
-            }
-            catch
-            {
-                lblUsuario.Content = "Compruebe que el usuario sea valido";
+                lblUsuario.Content = "El usuario es requerido";
                 lblUsuario.Visibility = Visibility.Visible;
                 return false;
             }
@@ -379,7 +367,6 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
         private void ImageSelector_ImageSelected(object sender, RoutedEventArgs e)
         {
             ImageSelector img = (ImageSelector)sender;
-            MessageBox.Show(img.Uri.ToString());
         }
 
         private void cbxUsuario_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -413,6 +400,12 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
     .FirstOrDefault(window => window is MainWindow) as MainWindow;
 
             mw.mainNavigaion.Content = new ListaProductos();
+        }
+
+        private void CambiarImagen_Click(object sender, RoutedEventArgs e)
+        {
+            imagenProduct.Visibility = Visibility.Visible;
+            imageView.Visibility = Visibility.Collapsed;
         }
     }
 }

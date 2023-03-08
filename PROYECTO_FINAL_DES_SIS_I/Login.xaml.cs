@@ -48,7 +48,9 @@ namespace PROYECTO_FINAL_DES_SIS_I
 
             popup.PopupElement = new CrearUsuario();
 
-            popup.ShowDialog();*/
+            popup.ShowDialog();
+
+            return;*/
 
 
             Usuario usuario = new Usuario().Login(txtUsuario.Text, txtContrasena.Password);
@@ -59,7 +61,6 @@ namespace PROYECTO_FINAL_DES_SIS_I
                 main.Show();
                 this.Close();
             }
-;
         }
     }
 }

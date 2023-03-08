@@ -10,9 +10,9 @@ using CNegocio;
 using ToastNotifications.Core;
 using HandyControl.Controls;
 using PROYECTO_FINAL_DES_SIS_I.Components;
-using Window = System.Windows.Window;
 using ScrollViewer = System.Windows.Controls.ScrollViewer;
 using HandyControl.Themes;
+using Window = HandyControl.Controls.Window;
 
 namespace PROYECTO_FINAL_DES_SIS_I
 {
@@ -26,13 +26,15 @@ namespace PROYECTO_FINAL_DES_SIS_I
             {"Lista de Usuarios", "Pages/Usuarios/ListaUsuarios.xaml"},//
             {"Administracion de Roles", "Pages/Usuarios/ListaRoles.xaml"},//
             {"Lista de Zapatos", "Pages/Productos/ListaProductos.xaml"},//
+            {"Reportes", "Pages/GenerarReporte.xaml"},//
             {"Agregar Zapato", "Pages/Productos/CrearProducto.xaml"},//
             {"Almacen", "Pages/Almacens/Formulario.xaml"}, //PEDINDIENTE
             {"Generacion de Data", "Pages/GenerarData.xaml"},
-        };
+        }; 
 
         public MainWindow(Usuario _usuario)
         {
+
             InitializeComponent();
 
 
@@ -46,7 +48,6 @@ namespace PROYECTO_FINAL_DES_SIS_I
                 Close();
             }
         }
-
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -69,15 +70,17 @@ namespace PROYECTO_FINAL_DES_SIS_I
                   //DAR BIENVENIDa
               }*/
 
+          
+
             _ts = new Toast.Toast();
             Unloaded += OnUnload;
 
-            _ts.ShowSuccess("BIENVENIDO USUARIO");
+            _ts.ShowSuccess($"BIENVENIDO USUARIO {usuario.Rol.ToUpper()}");
 
             mainNavigaion.Navigate(new Uri("Pages/Dashboard.xaml", UriKind.RelativeOrAbsolute));
 
-            if (usuario.Rol != "Admin") menuAdmin.Visibility = Visibility.Collapsed;
-            lblUsuario.Content = usuario.Nombre.Split(' ')[0] + usuario.Apellido.Split(' ')[0];
+            if (usuario.Rol != "Administrador") menuAdmin.Visibility = Visibility.Collapsed;
+            lblUsuario.Content = usuario.Nombre.Split(' ')[0] + " " + usuario.Apellido.Split(' ')[0];
             lblRol.Content = usuario.Rol;
         }
 
@@ -87,10 +90,10 @@ namespace PROYECTO_FINAL_DES_SIS_I
             {
                 FreezeOnMouseEnter = true,
                 UnfreezeOnMouseLeave = true,
-                ShowCloseButton = true
+                ShowCloseButton = true,
+                FontSize = 14,
             };
             action(msg, opts);
-
         }
 
         private void OnUnload(object sender, RoutedEventArgs e)

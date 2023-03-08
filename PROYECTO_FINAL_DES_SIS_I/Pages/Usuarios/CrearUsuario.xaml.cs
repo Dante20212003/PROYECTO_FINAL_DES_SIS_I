@@ -27,6 +27,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
         private Usuario usuario;
         public CrearUsuario(Usuario _usuario = null)
         {
+            
             InitializeComponent();
 
             if (_usuario != null)
@@ -56,6 +57,8 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
                 txtCi.Text = usuario.Ci;
                 txtTelefono.Text = usuario.Telefono;
                 txtUsername.Text = usuario.Username;
+
+                btnAgregar.Content = "Actualizar";
 
                 cbxEstado.SelectedValue = usuario.Estado.ToString();
                 cbxHorario.SelectedValue = usuario.HorarioLaboral;
@@ -149,6 +152,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
 
             int almacen_id = ((Almacen)cbxAlmacen.SelectedItem).Id;
             int rol_id = ((Rol)cbxRol.SelectedItem).Id;
+            
 
             Usuario usuario = new Usuario()
             {
@@ -162,12 +166,14 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Usuarios
                 HorarioLaboral = cbxHorario.Text,
                 Rol_id = rol_id,
                 Almacen_id = almacen_id,
-                Estado = bool.Parse(cbxEstado.SelectedValue.ToString())
+                                Estado = bool.Parse(cbxEstado.SelectedValue.ToString())
+
             };
 
             if (this.usuario != null)
             {
                 usuario.Id = this.usuario.Id;
+                usuario.Persona_id = this.usuario.Persona_id;
                 usuario.ActualizarUsuario(txtContrasena.Text.Length > 0);
                 MainWindow._ts.ShowSuccess("Usuario actualizado con exito");
             }

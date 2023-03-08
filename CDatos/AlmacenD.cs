@@ -4,17 +4,25 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CDatos
 {
     public class AlmacenD
     {
         ConexionDB conexion = new ConexionDB();
-        public DataTable SelectData(string query = "")
+        public DataTable SelectData()
         {
-            string sql = "SELECT * FROM Almacen";
+            string sql = "SELECT * From Almacen";
 
             return conexion.Select(sql).Tables[0];
+        }
+
+        public DataRow SelectOneData(int id)
+        {
+            string sql = $"SELECT TOP 1 a.id, a.nombre, a.direccion, a.telefono FROM Almacen a, Usuario u WHERE u.almacen_id = {id}";
+
+            return conexion.Select(sql).Tables[0].Rows[0];
         }
 
         public void InsertData(string nombre, string telefono, string direccion)
@@ -25,8 +33,9 @@ namespace CDatos
 
         public void UpdateData(int id, string nombre, string telefono, string direccion)
         {
-            string sql = $"UPDATE Almacen SET nombre='{nombre}', telefono='{telefono}', direccion={direccion} " +
+            string sql = $"UPDATE Almacen SET nombre='{nombre}', telefono='{telefono}', direccion='{direccion}' " +
                 $"WHERE id={id};";
+            MessageBox.Show(sql);
             conexion.InsertOrUpdate(sql);
         }
     }

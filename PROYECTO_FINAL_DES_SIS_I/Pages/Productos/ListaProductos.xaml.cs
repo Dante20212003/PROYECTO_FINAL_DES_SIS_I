@@ -39,6 +39,7 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             ListarZapatos();
+
         }
 
         // LISTA LOS USUARIOS EN EL DATAGRID
@@ -60,6 +61,12 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
 
+            if (DataGrid.SelectedItems.Count == 0)
+            {
+                MainWindow._ts.ShowInformation("Seleccione un registro");
+                return;
+            }
+
             Zapato zapatoRow = (Zapato)DataGrid.SelectedItem;
             zapatoRow.ActualizarZapato();
             MainWindow.mostrarToast(MainWindow._ts.ShowSuccess, "Zapato actualizado con exito.");
@@ -71,6 +78,12 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
         {
             MessageBoxResult result = MessageBoxResult.Yes;
             int totalSeleccionados = DataGrid.SelectedItems.Count;
+
+            if (totalSeleccionados == 0)
+            {
+                MainWindow._ts.ShowInformation("Seleccione un registro");
+                return;
+            }
 
             if (totalSeleccionados > 1)
             {
@@ -158,6 +171,11 @@ namespace PROYECTO_FINAL_DES_SIS_I.Pages.Productos
 
         private void Editar_Click(object sender, RoutedEventArgs e)
         {
+            if (DataGrid.SelectedItems.Count <= 0)
+            {
+                MainWindow._ts.ShowInformation("Seleccione un registro");
+                return;
+            }
             Zapato zapato = (Zapato)DataGrid.SelectedItems[0];
             Modal(true, zapato);
         }

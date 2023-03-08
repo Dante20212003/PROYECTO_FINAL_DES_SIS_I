@@ -13,24 +13,18 @@ namespace CDatos
     {
         ConexionDB conexion = new ConexionDB();
 
-        public DataTable SelectData(int limit = 10, int offset = 0, string query = "", bool isCount = false)
+        public DataTable SelectData(int limit = 10, int offset = 0, string query = "", bool isCount = false, bool isStock = false, bool today = false)
         {
-            string header = "";
-
-            if (isCount)
-            {
-                header += "SELECT COUNT(*) as totalZapatos FROM Zapato z, Usuario u ";
-            }
-            else
-            {
-                header += $"SELECT TOP {limit} * FROM (SELECT ROW_NUMBER() OVER (ORDER BY u.id DESC) AS numRow, " +
-                        "z.id, z.codigo, z.nombre, z.modelo, z.talla, z.color, z.stock, z.precio, z.img, z.usuario_id, u.nombre usuario, z.estado, z.fecha " +
-                        "FROM Zapato z, Usuario u ";
-            }
 
 
-            string sql = header +
-                "WHERE (z.usuario_id = u.id) " +
+            string header = isCount ? "SELECT COUNT(*) totalZapatos" : $"SELECT TOP {limit} *";
+
+
+            string sql = $"{header} FROM (SELECT ROW_NUMBER() OVER (ORDER BY z.id DESC) AS numRow, " +
+                        "z.id, z.codigo, z.nombre, z.modelo, z.talla, z.color, z.stock, z.precio, z.img, z.usuario_id, p.nombre usuario, z.estado, z.fecha " +
+                        "FROM Zapato z, Usuario u, Persona p " +
+
+                "WHERE (z.usuario_id = u.id AND u.persona_id = p.id) " +
                 $"AND (z.nombre LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
                 $"OR z.modelo LIKE '%{query}%' COLLATE SQL_Latin1_General_CP1_CI_AI " +
                 $"OR z.talla LIKE '%{query}%' " +
@@ -38,11 +32,23 @@ namespace CDatos
                 $"OR z.stock LIKE '%{query}%' " +
                 $"OR z.precio LIKE '%{query}%') ";
 
-            //PAGINACION
+            sql += isStock ? "AND z.stock = 0" : "";
+            sql += today ? "AND CAST(z.fecha AS DATE) = CAST(GETDATE() AS DATE)" : "";
+            sql += $") as productos ";
+
             if (!isCount)
             {
-                sql += $") as productos WHERE productos.numRow > {offset}";
+                sql += $"WHERE productos.numRow > {offset}";
+
+
             }
+
+            return conexion.Select(sql).Tables[0];
+        }
+
+        public DataTable SelectAllData()
+        {
+                        string sql = $"SELECT z.id, z.codigo, z.nombre, z.modelo, z.talla, z.color, z.stock, z.precio, p.nombre usuario, z.img, z.estado, z.fecha  FROM Zapato z, Usuario u, Persona p\r\nWHERE (z.usuario_id = u.id AND u.persona_id = p.id)";
 
             return conexion.Select(sql).Tables[0];
         }
@@ -63,10 +69,24 @@ namespace CDatos
 
         public void InsertData(string codigo, string nombre, string modelo, string talla, string color, int stock, decimal precio, string img, int usuario_id, bool estado)
         {
-            string newPrecio = precio.ToString(new CultureInfo("en-US"));
+            string sql = "";
+            nombre = nombre.Replace("'", "");
+            modelo = modelo.Replace("'", "");
+            talla = talla.Replace("'", "");
+            color = color.Replace("'", "");
+            talla = talla.Replace("'", "");
 
-            string sql = $"INSERT INTO Zapato VALUES('{codigo}','{nombre}', '{modelo}','{talla}','{color}', {stock}, {newPrecio}, '{img}', {usuario_id}, CURRENT_TIMESTAMP, {Convert.ToInt32(estado)})";
-            conexion.InsertOrUpdate(sql);
+            try
+            {
+                string newPrecio = precio.ToString(new CultureInfo("en-US"));
+
+                sql = $"INSERT INTO Zapato VALUES('{codigo}','{nombre}', '{modelo}','{talla}','{color}', {stock}, {newPrecio}, '{img}', {usuario_id}, CURRENT_TIMESTAMP, {Convert.ToInt32(estado)})";
+                conexion.InsertOrUpdate(sql);
+            }
+            catch
+            {
+                MessageBox.Show(sql);
+            }
         }
 
         public void UpdateData(int id, string codigo, string nombre, string modelo, string talla, string color, int stock, decimal precio, string img, int usuario_id, bool estado)
@@ -76,7 +96,7 @@ namespace CDatos
             string sql = $"UPDATE Zapato SET codigo='{codigo}', nombre='{nombre}', modelo='{modelo}', talla='{talla}', color='{color}', " +
                 $"stock='{stock}', precio={newPrecio}, img='{img}', usuario_id={usuario_id}, estado={Convert.ToInt32(estado)} " +
                 $"WHERE id={id};";
-            MessageBox.Show(sql);
+
             conexion.InsertOrUpdate(sql);
         }
     }

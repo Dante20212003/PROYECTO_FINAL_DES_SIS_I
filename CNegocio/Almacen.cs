@@ -42,7 +42,7 @@ namespace CNegocio
             return listaAlmacenes;
         }
 
-        public Almacen GetAlmacen(int id)
+        public Almacen GetAlmacen(int id = 0)
         {
             DataRow R = almacenD.SelectOneData(id);
 

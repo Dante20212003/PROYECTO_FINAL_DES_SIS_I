@@ -197,15 +197,6 @@
                                         <Icon:PackIconMaterial Kind="FormatListBulleted" />
                                     </hc:SideMenuItem.Icon>
                                 </hc:SideMenuItem>
-
-                                <hc:SideMenuItem  Padding="7"
-                                                  Header="Reportes"
-                                                  Command="{Binding SelectCmd}"
-                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
-                                    <hc:SideMenuItem.Icon>
-                                        <Icon:PackIconMaterial Kind="FileChart" />
-                                    </hc:SideMenuItem.Icon>
-                                </hc:SideMenuItem>
                             </hc:SideMenuItem>
 
                             <hc:SideMenuItem Header="Reportes"

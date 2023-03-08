@@ -12,7 +12,7 @@ namespace CDatos
         private SqlCommand comm;
 
         private string equipo = "DESKTOP-HA2D645";
-        private string db = "ProyectoInventarioBorrar2";
+        private string db = "ProyectoInventarioBorrar3";
 
         public void Conectar()
         {

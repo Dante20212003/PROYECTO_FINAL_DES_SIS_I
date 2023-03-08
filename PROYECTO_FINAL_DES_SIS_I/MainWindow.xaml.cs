@@ -52,33 +52,31 @@ namespace PROYECTO_FINAL_DES_SIS_I
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
-            /*  PopupWindow popup = new PopupWindow()
-              {
-                  WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                  AllowsTransparency = true,
-                  WindowStyle = WindowStyle.None,
-                  Effect = null,
-                  ShowTitle = false,
-                  ShowInTaskbar = false
-              };
-
-
-              popup.PopupElement = new FormAlmacen();
-
-              if (popup.ShowDialog() != true)
-              {
-                  //DAR BIENVENIDa
-              }*/
-
-
-
             _ts = new Toast.Toast();
             Unloaded += OnUnload;
 
             _ts.ShowSuccess($"BIENVENIDO USUARIO {usuario.Rol.ToUpper()}");
 
             mainNavigaion.Navigate(new Uri("Pages/Dashboard.xaml", UriKind.RelativeOrAbsolute));
+
+            Almacen almacen = new Almacen();
+
+            if (almacen.GetAlmacenes().Count == 0)
+            {
+                MessageBox.Show("VACIO");
+                PopupWindow popup = new PopupWindow()
+                {
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                    AllowsTransparency = true,
+                    WindowStyle = WindowStyle.None,
+                    Effect = null,
+                    ShowTitle = false,
+                    ShowInTaskbar = false
+                };
+
+                popup.PopupElement = new FormAlmacen();
+                popup.ShowDialog();
+            }
 
             if (usuario.Rol != "Administrador") menuAdmin.Visibility = Visibility.Collapsed;
             lblUsuario.Content = usuario.Nombre.Split(' ')[0] + " " + usuario.Apellido.Split(' ')[0];

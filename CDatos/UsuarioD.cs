@@ -39,9 +39,9 @@ namespace CDatos
 
         public DataRow SelectOneData(string campo, string value)
         {
-            string sql = $"SELECT u.id, p.nombre, p.apellido, p.ci, p.telefono, u.username, u.contrasena, u.horarioLaboral, u.rol_id, r.nombre rol, u.almacen_id, a.nombre almacen, u.persona_id, u.estado " +
-                $"FROM Usuario u, Persona p, Rol r, Almacen a " +
-                $"WHERE (u.rol_id = r.id AND u.almacen_id = a.id AND u.persona_id = p.id) " +
+            string sql = $"SELECT u.id, p.nombre, p.apellido, p.ci, p.telefono, u.username, u.contrasena, u.horarioLaboral, u.rol_id, r.nombre rol, u.persona_id, u.estado " +
+                $"FROM Usuario u, Persona p, Rol r " +
+                $"WHERE (u.rol_id = r.id AND u.persona_id = p.id) " +
                 $"AND ({campo} = '{value}')";
 
             var result = conexion.Select(sql).Tables[0];

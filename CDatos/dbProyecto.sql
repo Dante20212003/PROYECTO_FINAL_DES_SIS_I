@@ -1,8 +1,8 @@
-CREATE DATABASE ProyectoInventarioBorrar;
+CREATE DATABASE ProyectoInventario;
 GO
 
-USE ProyectoInventarioBorrar;
-GO
+USE ProyectoInventario;
+
 
 CREATE TABLE Almacen(
 	id int not null identity(1,1) PRIMARY KEY,
@@ -31,7 +31,7 @@ CREATE TABLE Usuario (
   contrasena nvarchar(255) NOT NULL,
   horarioLaboral nvarchar(30) NOT NULL,
   rol_id int NOT NULL FOREIGN KEY REFERENCES Rol(id),
-  almacen_id int NOT NULL FOREIGN KEY REFERENCES Almacen(id),
+  almacen_id int NULL FOREIGN KEY REFERENCES Almacen(id),
   persona_id int NOT NULL FOREIGN KEY REFERENCES Persona(id),
   fecha datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   estado bit DEFAULT 1 NOT NULL
@@ -60,10 +60,8 @@ CREATE TABLE Reporte(
 )
 
  --INSERTS INICIALES
-INSERT INTO Almacen(nombre, direccion, telefono) VALUES ('Almacen Perez','Calle la calle del barrio', '75342333')
 INSERT INTO Rol (nombre) VALUES ('Administrador');
 
-INSERT INTO Persona (nombre,apellido,telefono,ci) VALUES ('Dante', 'Arias' ,'658234434','154343412'); 
+INSERT INTO Persona (nombre,apellido,telefono,ci) VALUES ('Admin', 'Admin' ,'99999999','66666666');
 INSERT INTO Usuario (username, contrasena, horarioLaboral, rol_id, almacen_id, persona_id, estado)
-VALUES ('admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 'Mañana',1, 1, 1, 1);
-
+VALUES ('admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 'Mañana',1, null, 1, 1);

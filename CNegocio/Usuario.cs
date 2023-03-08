@@ -119,8 +119,6 @@ namespace CNegocio
                     HorarioLaboral = R["horarioLaboral"].ToString(),
                     Rol_id = int.Parse(R["rol_id"].ToString()),
                     Rol = R["rol"].ToString(),
-                    Almacen_id = int.Parse(R["almacen_id"].ToString()),
-                    Almacen = R["almacen"].ToString(),
                     Persona_id = int.Parse(R["persona_id"].ToString()),
                     Estado = bool.Parse(R["estado"].ToString()),
                 };
@@ -200,6 +198,6 @@ namespace CNegocio
             }
         }
 
-        
+
     }
 }

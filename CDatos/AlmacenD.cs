@@ -20,7 +20,7 @@ namespace CDatos
 
         public DataRow SelectOneData(int id)
         {
-            string sql = $"SELECT TOP 1 a.id, a.nombre, a.direccion, a.telefono FROM Almacen a, Usuario u WHERE u.almacen_id = {id}";
+            string sql = $"SELECT TOP 1 a.id, a.nombre, a.direccion, a.telefono FROM Almacen a, Usuario u";
 
             return conexion.Select(sql).Tables[0].Rows[0];
         }
